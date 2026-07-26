@@ -1,56 +1,48 @@
-# Welcome to your Expo app 👋
+# Scream O'Clock
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A rotation scheduler app for haunted house crew management. Three workers (A, B, C) rotate through positions in 20-minute slots across the evening, and the app schedules silent local notifications at each slot boundary so the crew knows when to rotate — even when the app is closed.
 
-## Get started
+Built with React Native + Expo.
 
-1. Install dependencies
+## What it does
 
-   ```bash
-   npm install
-   ```
+- Displays the live rotation status for the current 20-minute slot (who's on set, off set, on meal)
+- Shows a countdown to the next rotation
+- Shows a "Next:" preview of the upcoming slot's changes
+- Displays the full schedule as a color-coded table
+- Arms silent scheduled notifications at every future slot boundary
+- Notifications fire even when the app is killed (Android `setExactAndAllowWhileIdle` / iOS `UNUserNotificationCenter`)
+- One-tap arm/disarm for all alarms
+- Stop a currently-ringing alarm from within the app
 
-2. Start the app
+## How it works
 
-   ```bash
-   npx expo start
-   ```
+The crew works in three positions (A, B, C) across 18 fixed 20-minute slots running from 7:00 PM to 12:40 AM. Each slot assigns every worker one of three statuses:
 
-In the output, you'll find options to open the app in a
+- **On Set** — actively working a position
+- **Off Set** — on break
+- **On Meal** — eating
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+When you tap "Arm Alarms," the app schedules a local notification for each future slot's start time. When a slot boundary arrives, the notification fires with a "ROTATE!" title and the body lists who goes on set, off set, and on meal for the upcoming slot.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Tech stack
 
-## Get a fresh project
+- **React Native 0.86** — cross-platform UI (Android + iOS)
+- **Expo SDK 57** — managed build, OTA updates, native modules
+- **expo-router** — file-based navigation
+- **NativeWind v5 + Tailwind CSS v4** — styling
+- **React 19** + **TypeScript**
 
-When you're ready, run:
+## Roadmap
 
-```bash
-npm run reset-project
-```
+- [ ] Core rotation logic (slots, statuses, current/next slot)
+- [ ] Home screen with live countdown
+- [ ] Schedule table
+- [ ] Notification scheduling via `expo-notifications` (arm/disarm)
+- [ ] Stop active alarm
+- [ ] Settings screen
+- [ ] Custom fonts (Creepster, Google Sans Code) via `expo-font`
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Background
 
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Rewrite of a [Flutter app](https://github.com/Zieuro/screamoclock) in React Native + Expo. The original was vibe-coded; this version is being built properly.
