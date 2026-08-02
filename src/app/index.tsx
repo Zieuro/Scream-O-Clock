@@ -5,7 +5,7 @@ import "@/global.css";
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+      <Text className="text-red-500">Hello World!</Text>
     </View>
   );
 }
