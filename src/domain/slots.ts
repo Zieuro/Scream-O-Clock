@@ -2,6 +2,7 @@ import { Show, Slot, Assignment } from "./types"
 
 export function getPhase(now: number, show: Show): 'preShow' | 'show' | 'postShow' {
   if (now < show.callTime) return 'preShow'
+
   if (now >= show.callTime && now < show.endTime) return 'show'
   return 'postShow'
 }
