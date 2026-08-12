@@ -11,14 +11,14 @@ const SEASON_CONFIG: Record<number, {
 }> = {
   8: {  // September (getMonth() is 0-indexed)
     days: [5, 6],           // Friday, Saturday
-    callHour: 19,
-    startHour: 20,
-    endHours: { 5: 1, 6: 1 } // Friday → 01:00, Saturday → 01:00
+    callHour: 18,
+    startHour: 19,
+    endHours: { 5: 0, 6: 1 } // Friday → 01:00, Saturday → 01:00
   },
   9: {  // October
     days: [4, 5, 6, 0],     // Thursday through Sunday
-    callHour: 19,
-    startHour: 20,
+    callHour: 18,
+    startHour: 19,
     endHours: { 4: 0, 5: 1, 6: 1, 0: 0 } // Thur→midnight, Fri→01:00, Sat→01:00, Sun→midnight
   }
 }
