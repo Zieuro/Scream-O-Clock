@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 function useClock() {
   const tick = useAppStore.getState().tick
+  tick(Date.now())
   useEffect(() => {
     const interval = setInterval(() => {
       tick(Date.now())
