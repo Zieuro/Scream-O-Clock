@@ -1,11 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
+import MainScreen from "@/src/ui/MainScreen";
 import "@/global.css";
-
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Text className="text-red-500">Hello World!</Text>
+      <MainScreen />
     </View>
   );
 }
