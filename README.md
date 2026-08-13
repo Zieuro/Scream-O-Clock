@@ -30,18 +30,8 @@ When you tap "Arm Alarms," the app schedules a local notification for each futur
 - **React Native 0.86** — cross-platform UI (Android + iOS)
 - **Expo SDK 57** — managed build, OTA updates, native modules
 - **expo-router** — file-based navigation
-- **NativeWind v5 + Tailwind CSS v4** — styling
+- **NativeWind v5 + gluestack-ui** — styling
 - **React 19** + **TypeScript**
-
-## Roadmap
-
-- [ ] Core rotation logic (slots, statuses, current/next slot)
-- [ ] Home screen with live countdown
-- [ ] Schedule table
-- [ ] Notification scheduling via `expo-notifications` (arm/disarm)
-- [ ] Stop active alarm
-- [ ] Settings screen
-- [ ] Custom fonts (Creepster, Google Sans Code) via `expo-font`
 
 ## Background
 
