@@ -1,4 +1,4 @@
-import notifee from "@notifee/react-native";
+import notifee, { AuthorizationStatus } from "@notifee/react-native";
 import { AndroidImportance, TriggerType } from "@notifee/react-native";
 import { Slot } from "@/domain/types";
 
@@ -35,6 +35,12 @@ export function cancelAllNotifications() {
   notifee.cancelAllNotifications();
 }
 
-export function requestPermissions() {
-  //TODO
+export async function requestPermissions() {
+  const settings = await notifee.getNotificationSettings();
+
+  if (settings.authorizationStatus == AuthorizationStatus.NOT_DETERMINED) {
+    const permission = await notifee.requestPermission();
+    return permission.authorizationStatus == AuthorizationStatus.AUTHORIZED;
+  }
+  return settings.authorizationStatus == AuthorizationStatus.AUTHORIZED;
 }
