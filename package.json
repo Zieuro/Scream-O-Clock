@@ -8,7 +8,9 @@
     "@gluestack-ui/core": "^5.0.15",
     "@gluestack-ui/utils": "^5.0.6",
     "@legendapp/motion": "^2.5.3",
+    "@notifee/react-native": "^9.1.8",
     "@react-native-async-storage/async-storage": "^3.1.1",
+    "@supabase/supabase-js": "^2.112.3",
     "expo": "~57.0.9",
     "expo-constants": "~57.0.7",
     "expo-device": "~57.0.1",
@@ -59,7 +61,8 @@
     "lint": "expo lint"
   },
   "prettier": {
-    "bracketSpacing": true
+    "bracketSpacing": true,
+    "printWidth": 100
   },
   "private": true
 }
