@@ -1,7 +1,7 @@
 import { useAppStore } from "@/state/store";
 import { useEffect } from "react";
 
-function useClock() {
+export function useClock() {
   const tick = useAppStore.getState().tick
   tick(Date.now())
   useEffect(() => {
