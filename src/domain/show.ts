@@ -1,5 +1,4 @@
 import { Season_Config, Show } from "./types";
-import { default_config } from "@/services/config";
 
 export function buildTodaysShow(date: Date, config: Season_Config): Show | null {
   const thisMonth = date.getMonth();

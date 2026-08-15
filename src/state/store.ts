@@ -6,6 +6,7 @@ import { buildSlots } from "@/domain/slots";
 import { buildTodaysShow } from "@/domain/show";
 import { scheduleSlotNotifications, cancelAllNotifications } from "@/services/notifications";
 import { fetchConfig, default_config } from "@/services/config";
+import { fetchRows } from "@/services/assignments";
 
 interface AppState {
   //state
@@ -14,6 +15,7 @@ interface AppState {
   slots: Slot[];
   armed: boolean;
   ringingSlot: string | null;
+
   //actions
   tick: (now: number) => void;
   loadShow: (date: Date) => Promise<void>;
@@ -33,11 +35,14 @@ export const useAppStore = create<AppState>()(
 
       tick: (now) => set({ now }),
       loadShow: async (date) => {
-        const response = await fetchConfig();
-        const config = response ?? default_config;
+        const config_response = await fetchConfig();
+        const config = config_response ?? default_config;
+
+        const rows = await fetchRows();
+
         const show = buildTodaysShow(date, config);
         if (show != null) {
-          set({ show: show, slots: buildSlots(show) });
+          set({ show: show, slots: buildSlots(show, rows) });
         } else {
           set({ show: null, slots: [] });
         }
