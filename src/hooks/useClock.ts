@@ -1,4 +1,4 @@
-import { useAppStore } from "@/state/store";
+import { useAppStore } from "@/src/state/store";
 import { useEffect } from "react";
 
 export function useClock() {
