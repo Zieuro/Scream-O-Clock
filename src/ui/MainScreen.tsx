@@ -8,7 +8,7 @@ export default function MainScreen() {
     //   <ButtonText className="text-9xl">Schedule</ButtonText>
     // </Button>
     <View>
-      <Text>Hello</Text>
+      <Text>I Love You</Text>
     </View>
   );
 }
