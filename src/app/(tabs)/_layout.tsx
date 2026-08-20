@@ -3,16 +3,16 @@ import { NativeTabs } from "expo-router/unstable-native-tabs";
 export default function TabsLayout() {
   return (
     <NativeTabs
-      backgroundColor={"#171717"}
+      backgroundColor={"#0a0a0a"}
       iconColor={"#a1a1aa"}
       tintColor={"#ef4444"}
       disableIndicator
-      rippleColor={"#f87171"}
+      rippleColor={"#171717"}
 
       labelStyle={{
-          default: { fontSize: 18, fontWeight: '500' },
-          selected: { fontSize: 18, fontWeight: '700' }
-        }}
+        default: { fontSize: 18, fontWeight: "500" },
+        selected: { fontSize: 18, fontWeight: "700" },
+      }}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Rotation</NativeTabs.Trigger.Label>

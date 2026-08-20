@@ -1,11 +1,10 @@
 import { View, Text } from "react-native";
-import "@/global.css";
-import { SafeAreaView } from "react-native-safe-area-context";
+import TopButtons from "@/src/ui/components/topButtons";
 
 export default function Index() {
   return (
-    <View className="flex-1 bg-neutral-950">
-      <Text>Hello</Text>
+    <View className="flex-1 bg-neutral-950 p-safe">
+      <TopButtons />
     </View>
   );
 }
