@@ -8,6 +8,11 @@ export default function TabsLayout() {
       tintColor={"#ef4444"}
       disableIndicator
       rippleColor={"#f87171"}
+
+      labelStyle={{
+          default: { fontSize: 18, fontWeight: '500' },
+          selected: { fontSize: 18, fontWeight: '700' }
+        }}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Rotation</NativeTabs.Trigger.Label>
