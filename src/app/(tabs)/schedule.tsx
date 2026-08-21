@@ -1,7 +1,9 @@
-import { View, Text } from "react-native";
+import { Host, Text } from "@expo/ui";
 
 export default function Schedule() {
-  <View>
-    <Text>Schedule</Text>
-  </View>
+  return (
+    <Host colorScheme="dark" style={{ flex: 1 }}>
+      <Text>Schedule</Text>
+    </Host>
+  );
 }

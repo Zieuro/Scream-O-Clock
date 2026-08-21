@@ -1,16 +1,17 @@
-import { Button, ButtonGroup, ButtonIcon } from "@/components/ui/button";
-import { BellIcon, SettingsIcon } from "@/components/ui/icon";
+import { Row, Button, Icon, Spacer } from "@expo/ui";
 
 export default function TopButtons() {
   return (
-    <ButtonGroup flexDirection="row" className="p-5 justify-between">
-      <Button size="lg" className="rounded-full p-3.5 bg-zinc-900 outline-zinc-800 outline-1">
-        <ButtonIcon as={BellIcon} />
+    <Row style={{ paddingHorizontal: 20 }}>
+      <Button onPress={() => {}}>
+        <Icon name={"bell.fill"} />
       </Button>
 
-      <Button size="lg" className="rounded-full p-3.5 bg-zinc-900 outline-zinc-800 outline-1">
-        <ButtonIcon as={SettingsIcon} />
+      <Spacer />
+
+      <Button onPress={() => {}}>
+        <Icon name={"gearshape.fill"} />
       </Button>
-    </ButtonGroup>
+    </Row>
   );
 }

@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Show, Slot } from "@/src/domain/types";
-import { buildSlots } from "@/src/domain/slots";
-import { buildTodaysShow } from "@/src/domain/show";
-import { scheduleSlotNotifications, cancelAllNotifications } from "@/src/services/notifications";
-import { fetchConfig, default_config } from "@/src/services/config";
-import { fetchRows } from "@/src/services/assignments";
+import { Show, Slot } from "@/domain/types";
+import { buildSlots } from "@/domain/slots";
+import { buildTodaysShow } from "@/domain/show";
+import { scheduleSlotNotifications, cancelAllNotifications } from "@/services/notifications";
+import { fetchConfig, default_config } from "@/services/config";
+import { fetchRows } from "@/services/assignments";
 
 interface AppState {
   //state
