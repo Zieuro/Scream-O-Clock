@@ -25,14 +25,6 @@ The crew works in three positions (A, B, C) across 18 fixed 20-minute slots runn
 
 When you tap "Arm Alarms," the app schedules a local notification for each future slot's start time. When a slot boundary arrives, the notification fires with a "ROTATE!" title and the body lists who goes on set, off set, and on meal for the upcoming slot.
 
-## Tech stack
-
-- **React Native 0.86** — cross-platform UI (Android + iOS)
-- **Expo SDK 57** — managed build, OTA updates, native modules
-- **expo-router** — file-based navigation
-- **NativeWind v5 + gluestack-ui** — styling
-- **React 19** + **TypeScript**
-
 ## Background
 
 Rewrite of a [Flutter app](https://github.com/Zieuro/screamoclock) in React Native + Expo. The original was vibe-coded; this version is being built properly.
