@@ -3,12 +3,6 @@ import { NativeTabs } from "expo-router/unstable-native-tabs";
 export default function TabsLayout() {
   return (
     <NativeTabs
-      backgroundColor={"#0a0a0a"}
-      iconColor={"#a1a1aa"}
-      tintColor={"#ef4444"}
-      disableIndicator
-      rippleColor={"#171717"}
-
       labelStyle={{
         default: { fontSize: 18, fontWeight: "500" },
         selected: { fontSize: 18, fontWeight: "700" },
