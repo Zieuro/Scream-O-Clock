@@ -1,12 +1,19 @@
-import { Host, Column, Text } from "@expo/ui";
-import TopButtons from "@/ui/components/topButtons";
+import { View, Text } from "react-native";
+import { Colors } from "@/constants/colors";
 
 export default function Index() {
   return (
-    <Host colorScheme="dark" style={{ flex: 1, justifyContent: "center" }}>
-      <Column alignment="center">
-        <Text>Hello</Text>
-      </Column>
-    </Host>
+    <View
+      style={{
+        flex: 1,
+        padding: 20,
+        flexDirection: "column",
+        backgroundColor: Colors.background,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text style={{ color: Colors.text }}>Hello</Text>
+    </View>
   );
 }
