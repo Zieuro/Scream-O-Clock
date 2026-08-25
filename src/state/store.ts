@@ -4,9 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Show, Slot } from "@/domain/types";
 import { buildSlots } from "@/domain/slots";
 import { buildTodaysShow } from "@/domain/show";
-import { scheduleSlotNotifications, cancelAllNotifications } from "@/services/notifications";
+import {
+  scheduleSlotNotifications,
+  cancelAllNotifications,
+} from "@/services/notifications";
 import { fetchConfig, default_config } from "@/services/config";
 import { fetchRows } from "@/services/assignments";
+import { ensureChannel, requestPermissions } from "@/services/notifications";
+import notifee from "@notifee/react-native";
 
 interface AppState {
   //state
@@ -19,7 +24,7 @@ interface AppState {
   //actions
   tick: (now: number) => void;
   loadShow: (date: Date) => Promise<void>;
-  arm: () => void;
+  arm: () => Promise<void>;
   disarm: () => void;
   stopRingingSlot: () => void;
 }
@@ -35,8 +40,9 @@ export const useAppStore = create<AppState>()(
 
       tick: (now) => set({ now }),
       loadShow: async (date) => {
-        const config_response = await fetchConfig();
-        const config = config_response ?? default_config;
+        // const config_response = await fetchConfig();
+        // const config = config_response ?? default_config;
+        const config = default_config;
 
         const rows = await fetchRows();
 
@@ -47,12 +53,18 @@ export const useAppStore = create<AppState>()(
           set({ show: null, slots: [] });
         }
       },
-      arm: () => {
+      arm: async () => {
         const { slots } = get();
-        if (slots.length > 0) {
-          scheduleSlotNotifications(slots);
-          set({ armed: true });
-        }
+        if (slots.length === 0) return;
+
+        await ensureChannel();
+
+        const granted = await requestPermissions();
+        if (!granted) return;
+
+        await scheduleSlotNotifications(slots);
+        const ids = await notifee.getTriggerNotificationIds();
+        set({ armed: true });
       },
       disarm: () => {
         cancelAllNotifications();
