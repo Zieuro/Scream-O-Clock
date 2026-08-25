@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "uniwind";
+
+@theme {
+    --color-text: #ecedee;
+    --color-background: #151718;
+    --color-tint: #fff;
+    --color-icon: #9ba1a6;
+    --color-tabIconDefault: #9ba1a6;
+    --color-tabIconSelected: #ad2831;
+}
