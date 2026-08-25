@@ -2,6 +2,7 @@
   "name": "scream-o-clock",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "packageManager": "bun@1.4.0",
   "dependencies": {
     "@expo/ui": "~57.0.12",
     "@notifee/react-native": "^9.1.8",
