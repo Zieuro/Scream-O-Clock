@@ -1,25 +1,17 @@
-import { Colors } from "@/constants/colors";
-import { Text, View } from "react-native";
-import CircularProgress from "react-native-circular-progress-indicator";
-import Center from "../center";
+import { getCurrentSlot } from "@/domain/slots";
+import { useAppStore } from "@/state/store";
+import { View, Text } from "react-native";
 
 export default function Show() {
+  const currentSlots = useAppStore((s) => s.slots)
+  const now = useAppStore((s) => s.now)
+  
+  const slot = getCurrentSlot(currentSlots, now)
+  const row = slot?.row
   return (
-    <View className="flex-1 gap-6">
-      <Text className="text-text text-4xl self-center-safe">Position 1</Text>
-
-      <Text className="text-xl text-muted self-center-safe">Rotate in:</Text>
-
-      <Center>
-        <CircularProgress
-          value={20}
-          initialValue={100}
-          radius={190}
-          inActiveStrokeOpacity={0.2}
-          inActiveStrokeColor={Colors.tabIconDefault}
-          activeStrokeColor={Colors.tabIconSelected}
-        />
-      </Center>
+    <View className="rounded-3xl mx-5 p-5 shadow-xl outline-1 outline-secondary bg-card">
+      <Text className="text-2xl text-foreground text-">Position</Text>
+      <Text>{}</Text>
     </View>
   );
 }

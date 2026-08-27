@@ -21,7 +21,7 @@ export default function RootLayout() {
             options={{
               headerTransparent: true,
               headerTitle: "",
-              headerTintColor: Colors.text,
+              headerTintColor: Colors.foreground,
             }}
           />
         </Stack>

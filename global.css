@@ -3,10 +3,19 @@
 @import "heroui-native/styles";
 
 @theme {
-    --color-text: #ecedee;
-    --color-background: #151718;
-    --color-tint: #fff;
-    --color-icon: #9ba1a6;
-    --color-tabIconDefault: #9ba1a6;
-    --color-tabIconSelected: #ad2831;
+    /* Backgrounds */
+    --color-background: #121212;
+    --color-card: #1e1e1e;
+
+    /* Text colors */
+    --color-foreground: #f1f1f1;
+    --color-muted: #8d8d8d;
+
+    /* Borders */
+    --color-border: #374151;
+    --color-border-subtle: #1f2937;
+
+    /* Interactive elements */
+    --color-primary: #ff4d4d;
+    --color-secondary: #2b2d42;
 }

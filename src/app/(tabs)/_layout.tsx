@@ -5,8 +5,9 @@ export default function TabsLayout() {
   return (
     <NativeTabs
       backgroundColor={Colors.background}
-      indicatorColor={Colors.tabIconSelected}
-      tintColor={Colors.text}
+      indicatorColor={Colors.primary}
+      tintColor={Colors.foreground}
+      shadowColor={Colors.secondary}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Rotation</NativeTabs.Trigger.Label>
