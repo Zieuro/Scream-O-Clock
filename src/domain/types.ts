@@ -1,4 +1,4 @@
-export type Position = "pos1" | "pos2" | "off" | "meal";
+export type Position = "pos1" | "pos2" | "off" | "meal" | "on";
 
 export interface Row {
   id: number;
@@ -31,3 +31,9 @@ export type Season_Config = Record<
     endHours: Record<number, number>;
   }
 >;
+
+// Player settings options
+export type Venue = "house" | "zone";
+export type RoleType = "normal" | "specialty";
+export type Role = "a" | "b" | "c";
+export type LabelFormat = "abc" | "123";

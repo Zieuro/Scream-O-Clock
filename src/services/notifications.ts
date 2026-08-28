@@ -1,6 +1,7 @@
 import notifee, { AuthorizationStatus } from "@notifee/react-native";
 import { AndroidImportance, TriggerType } from "@notifee/react-native";
 import { Slot } from "@/domain/types";
+import { getFutureSlots } from "@/domain/slots";
 
 export async function ensureChannel() {
   const channelId = await notifee.createChannel({
@@ -10,8 +11,10 @@ export async function ensureChannel() {
   });
 }
 
-export async function scheduleSlotNotifications(slots: Slot[]) {
-  for (const slot of slots) {
+export async function scheduleSlotNotifications(slots: Slot[], now: number) {
+  const futureSlots = getFutureSlots(slots, now)
+  
+  for (const slot of futureSlots) {
     await notifee.createTriggerNotification(
       {
         id: slot.id,

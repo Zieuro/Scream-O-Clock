@@ -55,6 +55,7 @@ export const useAppStore = create<AppState>()(
       },
       arm: async () => {
         const { slots } = get();
+        const { now } = get();
         if (slots.length === 0) return;
 
         await ensureChannel();
@@ -62,7 +63,7 @@ export const useAppStore = create<AppState>()(
         const granted = await requestPermissions();
         if (!granted) return;
 
-        await scheduleSlotNotifications(slots);
+        await scheduleSlotNotifications(slots, now);
         const ids = await notifee.getTriggerNotificationIds();
         set({ armed: true });
       },

@@ -1,6 +1,9 @@
 import { Show, Slot, Row } from "./types";
 
-export function getPhase(now: number, show: Show): "preShow" | "show" | "postShow" | "noShow" {
+export function getPhase(
+  now: number,
+  show: Show,
+): "preShow" | "show" | "postShow" | "noShow" {
   if (now < show.callTime) return "preShow";
   if (now >= show.callTime && now < show.endTime) return "show";
   if (now >= show.endTime && now < show.clearTime) return "postShow";
@@ -32,10 +35,14 @@ export function buildSlots(show: Show, rows: Row[] | null): Slot[] {
   return slots;
 }
 
-export function getCurrentSlot(slots: Slot[], now: number): Slot | null {
-  return slots.find((slot) => now >= slot.start && now < slot.end) ?? null;
+export function getCurrentSlot(slots: Slot[], now: number): Slot | undefined {
+  return slots.find((slot) => now >= slot.start && now < slot.end);
 }
 
-export function getNextSlot(slots: Slot[], now: number): Slot | null {
-  return slots.find((slot) => slot.start > now) ?? null;
+export function getNextSlot(slots: Slot[], now: number): Slot | undefined {
+  return slots.find((slot) => slot.start > now);
+}
+
+export function getFutureSlots(slots: Slot[], now: number): Slot[] {
+  return slots.filter((slot) => slot.start > now);
 }
