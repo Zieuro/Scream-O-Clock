@@ -1,6 +1,10 @@
-import { Season_Config, Show } from "./types";
+import { Role, Season_Config, Show } from "./types";
 
-export function buildTodaysShow(date: Date, config: Season_Config): Show | null {
+export function buildTodaysShow(
+  date: Date,
+  config: Season_Config,
+  role: Role
+): Show | null {
   const thisMonth = date.getMonth();
   const today = date.getDay();
   const callDate = new Date(date);
@@ -23,7 +27,11 @@ export function buildTodaysShow(date: Date, config: Season_Config): Show | null 
   /* =============================================================
     Turns the todays times to epoch ms and gets ready for return
    ============================================================= */
-  callDate.setHours(thisConfig.callHour, 0, 0, 0);
+  if (role === "c") {
+    callDate.setHours(thisConfig.callHour, 30, 0, 0);
+  } else {
+    callDate.setHours(thisConfig.callHour, 0, 0, 0);
+  }
   const callTime = callDate.getTime();
 
   startDate.setHours(thisConfig.startHour, 0, 0, 0);

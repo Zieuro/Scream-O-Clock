@@ -12,6 +12,7 @@ import { fetchConfig, default_config } from "@/services/config";
 import { fetchRows } from "@/services/assignments";
 import { ensureChannel, requestPermissions } from "@/services/notifications";
 import notifee from "@notifee/react-native";
+import { useSettingsStore } from "./settingsStore";
 
 interface AppState {
   //state
@@ -43,10 +44,10 @@ export const useAppStore = create<AppState>()(
         // const config_response = await fetchConfig();
         // const config = config_response ?? default_config;
         const config = default_config;
-
         const rows = await fetchRows();
+        const role = useSettingsStore.getState().role;
 
-        const show = buildTodaysShow(date, config);
+        const show = buildTodaysShow(date, config, role);
         if (show != null) {
           set({ show: show, slots: buildSlots(show, rows) });
         } else {

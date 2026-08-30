@@ -3,15 +3,32 @@ import { useAppStore } from "@/state/store";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { HeroUINativeProvider } from "heroui-native";
+import * as SplashScreen from "expo-splash-screen";
+import { useLoadedFonts } from "@/constants/fonts";
 import "../../global.css";
 import { Colors } from "@/constants/colors";
 import { useClock } from "@/hooks/useClock";
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
+  const [fontsLoaded] = useLoadedFonts();
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   useEffect(() => {
     useAppStore.getState().loadShow(new Date());
   }, []);
-  useClock()
+  useClock();
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <HeroUINativeProvider>

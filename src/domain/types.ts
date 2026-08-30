@@ -1,4 +1,4 @@
-export type Position = "pos1" | "pos2" | "off" | "meal" | "on";
+export type Position = "pos1" | "pos2" | "meal" | "off" | "on";
 
 export interface Row {
   id: number;

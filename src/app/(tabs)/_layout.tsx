@@ -8,6 +8,7 @@ export default function TabsLayout() {
       indicatorColor={Colors.primary}
       tintColor={Colors.foreground}
       shadowColor={Colors.secondary}
+      rippleColor={"transparent"}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Rotation</NativeTabs.Trigger.Label>

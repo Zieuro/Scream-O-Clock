@@ -5,9 +5,9 @@ export const Colors = {
   foreground: "#F1F1F1",
   muted: "#8D8D8D",
 
-  border: "#374151",
-  borderSubtle: "#1f2937",
+  border: "#27272a",
+  borderSubtle: "#262626",
 
-  primary: "#FF4D4D",
+  primary: "#A72023",
   secondary: "#2B2D42",
 };

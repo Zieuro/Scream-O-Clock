@@ -16,6 +16,35 @@
     --color-border-subtle: #1f2937;
 
     /* Interactive elements */
-    --color-primary: #ff4d4d;
+    --color-primary: #a72023;
     --color-secondary: #2b2d42;
+
+    /* Fonts - heroui base (Inter) */
+    --font-thin: "Inter_100Thin";
+    --font-extralight: "Inter_200ExtraLight";
+    --font-light: "Inter_300Light";
+    --font-normal: "Inter_400Regular";
+    --font-medium: "Inter_500Medium";
+    --font-semibold: "Inter_600SemiBold";
+    --font-bold: "Inter_700Bold";
+    --font-extrabold: "Inter_800ExtraBold";
+    --font-black: "Inter_900Black";
+
+    /* Quicksand */
+    --font-quicksand-light: "Quicksand_300Light";
+    --font-quicksand: "Quicksand_400Regular";
+    --font-quicksand-medium: "Quicksand_500Medium";
+    --font-quicksand-semibold: "Quicksand_600SemiBold";
+    --font-quicksand-bold: "Quicksand_700Bold";
+
+    /* Creepster */
+    --font-creepster: "Creepster_400Regular";
+
+    /* Cinzel */ 
+    --font-cinzel: "Cinzel_400Regular";
+    --font-cinzel-medium: "Cinzel_500Medium";
+    --font-cinzel-semibold: "Cinzel_600SemiBold";
+    --font-cinzel-bold: "Cinzel_700Bold";
+    --font-cinzel-extrabold: "Cinzel_800ExtraBold";
+    --font-cinzel-black: "Cinzel_900Black";
 }
