@@ -38,5 +38,6 @@ export function useLoadedFonts() {
     Cinzel_700Bold,
     Cinzel_800ExtraBold,
     Cinzel_900Black,
+    Cinzel_700Bold_TNum: require("../../assets/Cinzel-Bold-TNum.ttf")
   });
 }

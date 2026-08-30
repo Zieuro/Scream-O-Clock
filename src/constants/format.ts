@@ -1,7 +1,7 @@
 import { Position } from "@/domain/types";
 
-export const fmt = (ms: number) =>
-  new Date(ms).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+// export const fmt = (ms: number) =>
+//   new Date(ms).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
 export function getLabel(pos: Position): string | undefined {
   switch (pos) {

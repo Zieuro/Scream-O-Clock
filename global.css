@@ -8,7 +8,7 @@
     --color-card: #1e1e1e;
 
     /* Text colors */
-    --color-foreground: #f1f1f1;
+    --color-foreground: #a3a3a3;
     --color-muted: #8d8d8d;
 
     /* Borders */
@@ -47,4 +47,5 @@
     --font-cinzel-bold: "Cinzel_700Bold";
     --font-cinzel-extrabold: "Cinzel_800ExtraBold";
     --font-cinzel-black: "Cinzel_900Black";
+    --font-cinzel-tnum: "Cinzel_700Bold_Tnum"
 }
