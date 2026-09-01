@@ -25,7 +25,7 @@ export default function Show() {
   return (
     <>
       <View className="mx-5 px-5 gap-4 flex-col">
-        <Text className="font-cinzel-bold self-center text-4xl text-foreground">
+        <Text className="font-cinzel-bold self-center text-4xl text-muted">
           Right Now
         </Text>
 
@@ -41,7 +41,7 @@ export default function Show() {
         strokeBackground={Colors.borderSubtle}
       >
         <Text
-          className="text-neutral-300 text-6xl text-center w-full"
+          className="text-foreground text-6xl text-center w-full"
           style={{
             fontFamily: "Cinzel_700Bold_TNum",
             fontVariant: ["tabular-nums"],
@@ -54,11 +54,11 @@ export default function Show() {
 
       <View className="mb-5">
         <Card>
-          <Text className="font-cinzel-medium self-start text-2xl text-foreground">
+          <Text className="font-cinzel-medium self-start text-2xl text-muted">
             Next:
           </Text>
 
-          <Text className="self-center text-3xl font-cinzel-semibold text-foreground">
+          <Text className="self-center text-3xl font-cinzel-semibold text-muted">
             {nextPosLabel}
           </Text>
         </Card>
