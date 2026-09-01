@@ -7,7 +7,7 @@ export default function SettingsButton() {
 
   return (
     <Button
-      className="bg-card shadow-lg shadow-neutral-950 outline-1 outline-zinc-800"
+      className="rounded-full bg-card shadow-lg shadow-neutral-950 outline-1 outline-zinc-800"
       variant="tertiary"
       feedbackVariant="scale-highlight"
       accessibilityLabel="Settings"

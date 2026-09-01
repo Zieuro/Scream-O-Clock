@@ -41,6 +41,8 @@ export default function RootLayout() {
               headerStyle: { backgroundColor: Colors.dark },
               headerShadowVisible: true,
               headerTitle: "Settings",
+              headerBackTitle: "Back",
+              headerBackButtonDisplayMode: "generic",
               headerTintColor: Colors.foreground,
             }}
           />

@@ -24,7 +24,7 @@ export default function Show() {
 
   return (
     <>
-      <View className="mx-5 py-2 px-5 gap-4 flex-col">
+      <View className="mx-5 px-5 gap-4 flex-col">
         <Text className="font-cinzel-bold self-center text-4xl text-foreground">
           Right Now
         </Text>
@@ -36,33 +36,33 @@ export default function Show() {
         </Text>
       </View>
 
-      <View className="items-center">
-        <CountdownRing
-          progress={progress}
-          strokeBackground={Colors.borderSubtle}
+      <CountdownRing
+        progress={progress}
+        strokeBackground={Colors.borderSubtle}
+      >
+        <Text
+          className="text-neutral-300 text-6xl text-center w-full"
+          style={{
+            fontFamily: "Cinzel_700Bold_TNum",
+            fontVariant: ["tabular-nums"],
+            lineHeight: 64,
+          }}
         >
-          <Text
-            className="text-neutral-300 text-6xl text-center"
-            style={{
-              fontFamily: "Cinzel_700Bold_TNum",
-              fontVariant: ["tabular-nums"],
-              minWidth: 140,
-            }}
-          >
-            {timeLabel}
+          {timeLabel}
+        </Text>
+      </CountdownRing>
+
+      <View className="mb-5">
+        <Card>
+          <Text className="font-cinzel-medium self-start text-2xl text-foreground">
+            Next:
           </Text>
-        </CountdownRing>
+
+          <Text className="self-center text-3xl font-cinzel-semibold text-foreground">
+            {nextPosLabel}
+          </Text>
+        </Card>
       </View>
-
-      <Card>
-        <Text className="font-cinzel-medium self-start text-2xl text-foreground">
-          Next:
-        </Text>
-
-        <Text className="self-center text-3xl font-cinzel-semibold text-foreground">
-          {nextPosLabel}
-        </Text>
-      </Card>
     </>
   );
 }

@@ -10,12 +10,20 @@ export default function TabsLayout() {
       shadowColor={Colors.secondary}
       rippleColor={"transparent"}
     >
-      <NativeTabs.Trigger name="index">
+      <NativeTabs.Trigger
+        name="index"
+        disableAutomaticContentInsets
+        contentStyle={{ backgroundColor: Colors.background }}
+      >
         <NativeTabs.Trigger.Label>Rotation</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="house.fill" md="schedule" />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="schedule">
+      <NativeTabs.Trigger
+        name="schedule"
+        disableAutomaticContentInsets
+        contentStyle={{ backgroundColor: Colors.background }}
+      >
         <NativeTabs.Trigger.Label>Schedule</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="calendar" md="calendar_clock" />
       </NativeTabs.Trigger>

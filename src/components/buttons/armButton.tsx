@@ -12,8 +12,8 @@ export default function ArmButton() {
     <Button
       className={
         armed
-          ? "bg-primary shadow-lg shadow-neutral-950 outline-1 outline-primary"
-          : "bg-card shadow-lg shadow-neutral-950 outline-1 outline-zinc-800"
+          ? "rounded-full bg-primary shadow-lg shadow-neutral-950 outline-1 outline-primary"
+          : "rounded-full bg-card shadow-lg shadow-neutral-950 outline-1 outline-zinc-800"
       }
       variant={armed ? "danger" : "tertiary"}
       feedbackVariant="scale-ripple"
