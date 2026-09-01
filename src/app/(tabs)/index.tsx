@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
-import ArmButton from "@/components/armButton";
-import SettingsButton from "@/components/settingsButton";
+import ArmButton from "@/components/buttons/armButton";
+import SettingsButton from "@/components/buttons/settingsButton";
 import Show from "@/components/phases/show";
 
 export default function Index() {

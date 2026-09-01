@@ -12,7 +12,7 @@ export function getLabel(pos: Position): string | undefined {
     case "meal":
       return "Meal"
     case "off":
-      return "Off Set"
+      return "Break"
     case "on":
       return "On Set"
   }

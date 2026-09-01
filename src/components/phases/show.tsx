@@ -5,16 +5,22 @@ import CountdownRing from "../countdownRing";
 import { Colors } from "@/constants/colors";
 import { getLabel } from "@/constants/format";
 import { useCountdown } from "@/hooks/useCountdown";
+import { useShow } from "@/hooks/useShow";
 import Card from "../card";
 
 export default function Show() {
-  const { slot, progress, timeLabel } = useCountdown();
+  const { progress, timeLabel } = useCountdown();
+  const { slot, nextSlot } = useShow();
 
   const role = useSettingsStore((s) => s.role);
-  const row = slot?.row;
 
+  const row = slot?.row;
   const myPosition = row?.[role];
   const posLabel = myPosition ? getLabel(myPosition) : null;
+
+  const nextRow = nextSlot?.row;
+  const nextPosition = nextRow?.[role];
+  const nextPosLabel = nextPosition ? getLabel(nextPosition) : null;
 
   return (
     <>
@@ -36,12 +42,13 @@ export default function Show() {
           strokeBackground={Colors.borderSubtle}
         >
           <Text
-            className="text-foreground text-6xl text-center"
-              style={{
-                fontFamily: "Cinzel_700Bold_TNum",
-                fontVariant: ["tabular-nums"],
-                minWidth: 140,
-              }}>
+            className="text-neutral-300 text-6xl text-center"
+            style={{
+              fontFamily: "Cinzel_700Bold_TNum",
+              fontVariant: ["tabular-nums"],
+              minWidth: 140,
+            }}
+          >
             {timeLabel}
           </Text>
         </CountdownRing>
@@ -53,7 +60,7 @@ export default function Show() {
         </Text>
 
         <Text className="self-center text-3xl font-cinzel-semibold text-foreground">
-          {posLabel}
+          {nextPosLabel}
         </Text>
       </Card>
     </>

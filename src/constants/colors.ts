@@ -1,8 +1,9 @@
 export const Colors = {
   background: "#121212",
   card: "#1E1E1E",
+  dark: "#171717",
 
-  foreground: "#F1F1F1",
+  foreground: "#a3a3a3",
   muted: "#8D8D8D",
 
   border: "#27272a",

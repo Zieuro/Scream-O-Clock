@@ -20,6 +20,17 @@ import {
   Cinzel_800ExtraBold,
   Cinzel_900Black,
 } from "@expo-google-fonts/cinzel";
+import {
+  MPLUSU_100Thin,
+  MPLUSU_200ExtraLight,
+  MPLUSU_300Light,
+  MPLUSU_400Regular,
+  MPLUSU_500Medium,
+  MPLUSU_600SemiBold,
+  MPLUSU_700Bold,
+  MPLUSU_800ExtraBold,
+  MPLUSU_900Black,
+} from "@expo-google-fonts/m-plus-u";
 
 export function useLoadedFonts() {
   return useFonts({
@@ -38,6 +49,15 @@ export function useLoadedFonts() {
     Cinzel_700Bold,
     Cinzel_800ExtraBold,
     Cinzel_900Black,
-    Cinzel_700Bold_TNum: require("../../assets/Cinzel-Bold-TNum.ttf")
+    Cinzel_700Bold_TNum: require("../../assets/Cinzel-Bold-TNum.ttf"),
+    MPLUSU_100Thin,
+    MPLUSU_200ExtraLight,
+    MPLUSU_300Light,
+    MPLUSU_400Regular,
+    MPLUSU_500Medium,
+    MPLUSU_600SemiBold,
+    MPLUSU_700Bold,
+    MPLUSU_800ExtraBold,
+    MPLUSU_900Black,
   });
 }

@@ -40,12 +40,23 @@
     /* Creepster */
     --font-creepster: "Creepster_400Regular";
 
-    /* Cinzel */ 
+    /* Cinzel */
     --font-cinzel: "Cinzel_400Regular";
     --font-cinzel-medium: "Cinzel_500Medium";
     --font-cinzel-semibold: "Cinzel_600SemiBold";
     --font-cinzel-bold: "Cinzel_700Bold";
     --font-cinzel-extrabold: "Cinzel_800ExtraBold";
     --font-cinzel-black: "Cinzel_900Black";
-    --font-cinzel-tnum: "Cinzel_700Bold_Tnum"
+    --font-cinzel-tnum: "Cinzel_700Bold_Tnum";
+
+    /* M Plus U */
+    --font-mpu-thin: "MPLUSU_100Thin";
+    --font-mpu-extralight: "MPLUSU_200ExtraLight";
+    --font-mpu-light: "MPLUSU_300Light";
+    --font-mpu: "MPLUSU_400Regular";
+    --font-mpu-medium: "MPLUSU_500Medium";
+    --font-mpu-semibold: "MPLUSU_600SemiBold";
+    --font-mpu-bold: "MPLUSU_700Bold";
+    --font-mpu-extrabold: "MPLUSU_800ExtraBold";
+    --font-mpu-black: "MPLUSU_900Black";
 }

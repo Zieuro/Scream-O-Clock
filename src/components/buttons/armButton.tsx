@@ -1,4 +1,4 @@
-import { Button, useThemeColor } from "heroui-native";
+import { Button } from "heroui-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppStore } from "@/state/store";
 import { Colors } from "@/constants/colors";

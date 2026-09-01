@@ -37,8 +37,10 @@ export default function RootLayout() {
           <Stack.Screen
             name="settings"
             options={{
-              headerTransparent: true,
-              headerTitle: "",
+              headerTransparent: false,
+              headerStyle: { backgroundColor: Colors.dark },
+              headerShadowVisible: true,
+              headerTitle: "Settings",
               headerTintColor: Colors.foreground,
             }}
           />
