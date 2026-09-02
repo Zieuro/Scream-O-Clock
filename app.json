@@ -2,17 +2,17 @@
   "expo": {
     "name": "Scream-O-Clock",
     "slug": "Scream-O-Clock",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "screamoclock",
     "userInterfaceStyle": "dark",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.zieuro.scream-o-clock"
+      "bundleIdentifier": "com.zieuro.screamoclock"
     },
     "android": {
-      "package": "com.zieuro.scream_o_clock",
+      "package": "com.zieuro.screamoclock",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -40,12 +40,6 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    },
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "327c0d1c-d0b0-4ac7-ad44-1639497113b9"
-      }
     }
   }
 }
