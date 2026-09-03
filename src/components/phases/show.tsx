@@ -24,7 +24,9 @@ export default function Show() {
 
   const nextRow = nextSlot?.row;
   const nextPosition = nextRow?.[role];
-  const nextPosLabel = nextPosition ? getLabel(nextPosition) : null;
+  const nextPosLabel = !positionView && (nextPosition === "pos1" || nextPosition === "pos2")
+    ? getLabel('on')
+    : (nextPosition ? getLabel(nextPosition) : null);
 
   return (
     <>

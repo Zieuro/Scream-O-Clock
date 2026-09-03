@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getCurrentSlot } from "@/domain/slots";
+import { getCurrentSlot, getNextSlot } from "@/domain/slots";
 import { useAppStore } from "@/state/store";
 
 function formatTimeLabel(remainingMs: number) {
@@ -8,8 +8,7 @@ function formatTimeLabel(remainingMs: number) {
 }
 
 export function useCountdown() {
-  const slots = useAppStore((s) => s.slots);
-  const now = useAppStore((s) => s.now);
+  const { slots, now } = useAppStore();
 
   return useMemo(() => {
     const slot = getCurrentSlot(slots, now);
@@ -34,4 +33,30 @@ export function useCountdown() {
       timeLabel: formatTimeLabel(remainingMs),
     };
   }, [slots, now]);
+}
+
+export function usePreShowCountdown() {
+  const { now, show, slots } = useAppStore();
+
+  return useMemo(() => {
+    const nextSlot = getNextSlot(slots, now);
+
+    if (!nextSlot) {
+      return {
+        slot: undefined,
+        remainingMs: 0,
+        progress: 0,
+        timeLabel: "0:00",
+      };
+    }
+
+    const durationMs = Math.max(1, nextSlot.end - nextSlot.start);
+    const remainingMs = show ? Math.max(0, show.startTime - now) : 0;
+    const progress = Math.min(1, Math.max(0, 1 - remainingMs / durationMs));
+    return {
+      progress,
+      remainingMs,
+      timeLabel: formatTimeLabel(remainingMs),
+    };
+  }, [slots, now, show]);
 }

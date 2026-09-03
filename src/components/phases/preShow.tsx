@@ -1,40 +1,43 @@
 import { useSettingsStore } from "@/state/settingsStore";
+import { useAppStore } from "@/state/store";
 import { View, Text } from "react-native";
-import { Separator } from "heroui-native";
 import CountdownRing from "../countdownRing";
 import { Colors } from "@/constants/colors";
 import { getLabel } from "@/constants/format";
-import { useCountdown } from "@/hooks/useCountdown";
+import { usePreShowCountdown } from "@/hooks/useCountdown";
 import { useShow } from "@/hooks/useShow";
 import Card from "../card";
 
 export default function PreShow() {
-  const { progress, timeLabel } = useCountdown();
-  const { slot, nextSlot } = useShow();
+  const { show, now } = useAppStore();
+  const { progress, timeLabel } = usePreShowCountdown();
+  const { nextSlot } = useShow();
 
   const { role, positionView } = useSettingsStore();
 
-  const row = slot?.row;
-  const myPosition = row?.[role];
-
-  const posLabel = !positionView && (myPosition === "pos1" || myPosition === "pos2")
-    ? getLabel('on')
-    : (myPosition ? getLabel(myPosition) : null);
-
+  const isAfterCalltime = (show ? now >= show.callTime : null) ? true : false;
 
   const nextRow = nextSlot?.row;
   const nextPosition = nextRow?.[role];
-  const nextPosLabel = nextPosition ? getLabel(nextPosition) : null;
+  const nextPosLabel =
+    !positionView && (nextPosition === "pos1" || nextPosition === "pos2")
+      ? getLabel("on")
+      : nextPosition
+        ? getLabel(nextPosition)
+        : null;
 
   return (
     <>
       <View className="mx-5 px-5 gap-4 flex-col items-center">
         <Text className="font-cinzel-bold text-center text-4xl text-muted">
-          Be at{"\n"}venue in:
+          {isAfterCalltime ? "Show starts in:" : "Be at\nvenue in:"}
         </Text>
       </View>
 
-      <CountdownRing progress={progress} strokeBackground={Colors.borderSubtle}>
+      <CountdownRing
+        progress={isAfterCalltime ? progress : 0}
+        strokeBackground={Colors.borderSubtle}
+      >
         <Text
           className="text-foreground text-6xl text-center w-full"
           style={{
@@ -47,17 +50,17 @@ export default function PreShow() {
         </Text>
       </CountdownRing>
 
-      <View className="mb-5">
+      {isAfterCalltime && <View className="mb-5">
         <Card>
           <Text className="font-cinzel-medium self-start text-2xl text-muted">
-            Next:
+            Start:
           </Text>
 
           <Text className="self-center text-3xl font-cinzel-semibold text-muted">
             {nextPosLabel}
           </Text>
         </Card>
-      </View>
+      </View>}
     </>
   );
 }
