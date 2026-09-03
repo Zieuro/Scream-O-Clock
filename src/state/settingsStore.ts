@@ -1,17 +1,17 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Role, RoleType, Venue } from "@/domain/types";
+import { Role, RoleType } from "@/domain/types";
 
 interface SettingState {
   //state
-  venue: Venue;
+  positionView: boolean;
   roleType: RoleType;
   role: Role;
   numFormat: boolean;
 
   //actions
-  setVenue: (venue: Venue) => void;
+  setPositionView: (positionView: boolean) => void;
   setRoleType: (roleType: RoleType) => void;
   setRole: (role: Role) => void;
   setNumFormat: (numFormat: boolean) => void;
@@ -20,12 +20,12 @@ interface SettingState {
 export const useSettingsStore = create<SettingState>()(
   persist(
     (set) => ({
-      venue: "house",
-      roleType: "normal",
+      positionView: true, // Option to display positions
+      roleType: "standard",
       role: "a",
       numFormat: false,
 
-      setVenue: (venue) => set({ venue }),
+      setPositionView: (positionView) => set({ positionView }), // Action to toggle, shows by 
       setRoleType: (roleType) => set({ roleType }),
       setRole: (role) => set({ role }),
       setNumFormat: (numFormat) => set({ numFormat }),

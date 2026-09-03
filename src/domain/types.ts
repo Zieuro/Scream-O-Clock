@@ -33,7 +33,5 @@ export type Season_Config = Record<
 >;
 
 // Player settings options
-export type Venue = "house" | "zone";
-export type RoleType = "normal" | "specialty";
+export type RoleType = "standard" | "specialty";
 export type Role = "a" | "b" | "c";
-// export type LabelFormat = "abc" | "123";

@@ -12,11 +12,15 @@ export default function Show() {
   const { progress, timeLabel } = useCountdown();
   const { slot, nextSlot } = useShow();
 
-  const role = useSettingsStore((s) => s.role);
+  const { role, positionView } = useSettingsStore();
 
   const row = slot?.row;
   const myPosition = row?.[role];
-  const posLabel = myPosition ? getLabel(myPosition) : null;
+
+  const posLabel = !positionView && (myPosition === "pos1" || myPosition === "pos2")
+    ? getLabel('on')
+    : (myPosition ? getLabel(myPosition) : null);
+
 
   const nextRow = nextSlot?.row;
   const nextPosition = nextRow?.[role];
@@ -36,16 +40,13 @@ export default function Show() {
         </Text>
       </View>
 
-      <CountdownRing
-        progress={progress}
-        strokeBackground={Colors.borderSubtle}
-      >
+      <CountdownRing progress={progress} strokeBackground={Colors.borderSubtle}>
         <Text
           className="text-foreground text-6xl text-center w-full"
           style={{
             fontFamily: "Cinzel_700Bold_TNum",
             fontVariant: ["tabular-nums"],
-            lineHeight: 64,
+            lineHeight: 98,
           }}
         >
           {timeLabel}
