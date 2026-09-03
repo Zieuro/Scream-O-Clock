@@ -3,11 +3,11 @@ import { Show, Slot, Row } from "./types";
 export function getPhase(
   now: number,
   show: Show,
-): "preShow" | "show" | "postShow" | "noShow" {
-  if (now < show.callTime) return "preShow";
-  if (now >= show.callTime && now < show.endTime) return "show";
+): "preShow" | "show" | "postShow" | null {
+  if (now < show.startTime) return "preShow";
+  if (now >= show.startTime && now < show.endTime) return "show";
   if (now >= show.endTime && now < show.clearTime) return "postShow";
-  return "noShow";
+  return null;
 }
 
 export function buildSlots(show: Show, rows: Row[] | null): Slot[] {

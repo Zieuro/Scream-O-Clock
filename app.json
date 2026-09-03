@@ -35,7 +35,11 @@
           "imageWidth": 76
         }
       ],
-      "./plugins/withNotifeeMaven"
+      "./plugins/withNotifeeMaven",
+      [
+        "@harkenapp/sdk-react-native"
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -7,10 +7,11 @@ import { buildTodaysShow } from "@/domain/show";
 import {
   scheduleSlotNotifications,
   cancelAllNotifications,
+  ensureChannel,
+  requestPermissions,
 } from "@/services/notifications";
 import { fetchConfig, default_config } from "@/services/config";
 import { fetchRows } from "@/services/assignments";
-import { ensureChannel, requestPermissions } from "@/services/notifications";
 import notifee from "@notifee/react-native";
 import { useSettingsStore } from "./settingsStore";
 
@@ -53,6 +54,8 @@ export const useAppStore = create<AppState>()(
         } else {
           set({ show: null, slots: [] });
         }
+        cancelAllNotifications();
+        set({ armed: false });
       },
       arm: async () => {
         const { slots } = get();

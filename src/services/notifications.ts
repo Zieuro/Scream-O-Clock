@@ -1,5 +1,4 @@
-import notifee, { AuthorizationStatus } from "@notifee/react-native";
-import { AndroidImportance, TriggerType } from "@notifee/react-native";
+import notifee, { AuthorizationStatus, AndroidImportance, TriggerType } from "@notifee/react-native";
 import { Slot } from "@/domain/types";
 import { getFutureSlots } from "@/domain/slots";
 

@@ -7,7 +7,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useLoadedFonts } from "@/constants/fonts";
 import "../../global.css";
 import { Colors } from "@/constants/colors";
+import { harkenDarkTheme } from "@/constants/harken";
 import { useClock } from "@/hooks/useClock";
+import { HarkenProvider } from "@harkenapp/sdk-react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,8 +32,15 @@ export default function RootLayout() {
   }
 
   return (
+  <HarkenProvider
+        themeMode="dark"
+        darkTheme={harkenDarkTheme}
+        config={{
+          publishableKey: "pk_live_0lgUparAhPCpnI25VbLnZKB88jfVlhzB",
+        }}
+      >
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <HeroUINativeProvider>
+      <HeroUINativeProvider config={{ devInfo: { stylingPrinciples: false } }}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
@@ -48,6 +57,7 @@ export default function RootLayout() {
           />
         </Stack>
       </HeroUINativeProvider>
-    </GestureHandlerRootView>
+      </GestureHandlerRootView>
+      </HarkenProvider>
   );
 }
