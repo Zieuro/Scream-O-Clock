@@ -10,9 +10,13 @@ export async function ensureChannel() {
   });
 }
 
-export async function scheduleSlotNotifications(slots: Slot[], now: number) {
-  const futureSlots = getFutureSlots(slots, now)
-  
+export async function scheduleSlotNotifications(
+  slots: Slot[],
+  now: number
+): Promise<number> {
+  const futureSlots = getFutureSlots(slots, now);
+  let scheduled = 0;
+
   for (const slot of futureSlots) {
     await notifee.createTriggerNotification(
       {
@@ -30,7 +34,10 @@ export async function scheduleSlotNotifications(slots: Slot[], now: number) {
         alarmManager: true,
       },
     );
+    scheduled++;
   }
+
+  return scheduled;
 }
 
 export function cancelAllNotifications() {

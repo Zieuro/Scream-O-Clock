@@ -9,7 +9,7 @@ export default function Schedule() {
       style={{ flex: 1, backgroundColor: Colors.background }}
     >
       <View className="flex-1 p-20 bg-background justify-center items-center">
-        <Text className="text-4xl text-muted font-bold">Schedule</Text>
+        <Text className="text-2xl text-center text-muted font-bold">Schedule Screen Under Construction</Text>
       </View>
     </SafeAreaView>
   );

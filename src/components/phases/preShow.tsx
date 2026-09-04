@@ -10,7 +10,7 @@ import Card from "../card";
 
 export default function PreShow() {
   const { show, now } = useAppStore();
-  const { progress, timeLabel } = usePreShowCountdown();
+  const { progress, timeLabel, preTimeLabel } = usePreShowCountdown();
   const { nextSlot } = useShow();
 
   const { role, positionView } = useSettingsStore();
@@ -46,7 +46,7 @@ export default function PreShow() {
             lineHeight: 98,
           }}
         >
-          {timeLabel}
+          {isAfterCalltime ? timeLabel : preTimeLabel}
         </Text>
       </CountdownRing>
 

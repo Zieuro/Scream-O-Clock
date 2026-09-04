@@ -7,6 +7,14 @@ function formatTimeLabel(remainingMs: number) {
   return `${Math.floor(totalSec / 60)}:${String(totalSec % 60).padStart(2, "0")}`;
 }
 
+function formatBigTimeLabel(remainingMs: number) {
+  const totalSec = Math.max(0, Math.ceil(remainingMs / 1000));
+  const hours = Math.floor(totalSec / 3600);
+  const minutes = Math.floor((totalSec % 3600) / 60);
+  const seconds = totalSec % 60;
+  return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
 export function useCountdown() {
   const { slots, now } = useAppStore();
 
@@ -50,12 +58,15 @@ export function usePreShowCountdown() {
       };
     }
 
-    const durationMs = Math.max(1, nextSlot.end - nextSlot.start);
+    const durationMs = show ? Math.max(1, show.startTime - show.callTime) : 0;
+    const preRemainingMs = show ? Math.max(0, show.callTime - now) : 0;
     const remainingMs = show ? Math.max(0, show.startTime - now) : 0;
     const progress = Math.min(1, Math.max(0, 1 - remainingMs / durationMs));
     return {
       progress,
+      preRemainingMs,
       remainingMs,
+      preTimeLabel: formatBigTimeLabel(preRemainingMs),
       timeLabel: formatTimeLabel(remainingMs),
     };
   }, [slots, now, show]);

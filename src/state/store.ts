@@ -12,8 +12,11 @@ import {
 } from "@/services/notifications";
 import { fetchConfig, default_config } from "@/services/config";
 import { fetchRows } from "@/services/assignments";
-import notifee from "@notifee/react-native";
 import { useSettingsStore } from "./settingsStore";
+
+export type ArmResult =
+  | { ok: true; scheduled: number }
+  | { ok: false; reason: "no-slots" | "permission-denied" };
 
 interface AppState {
   //state
@@ -26,7 +29,7 @@ interface AppState {
   //actions
   tick: (now: number) => void;
   loadShow: (date: Date) => Promise<void>;
-  arm: () => Promise<void>;
+  arm: () => Promise<ArmResult>;
   disarm: () => void;
   stopRingingSlot: () => void;
 }
@@ -60,16 +63,16 @@ export const useAppStore = create<AppState>()(
       arm: async () => {
         const { slots } = get();
         const { now } = get();
-        if (slots.length === 0) return;
+        if (slots.length === 0) return { ok: false, reason: "no-slots" };
 
         await ensureChannel();
 
         const granted = await requestPermissions();
-        if (!granted) return;
+        if (!granted) return { ok: false, reason: "permission-denied" };
 
-        await scheduleSlotNotifications(slots, now);
-        const ids = await notifee.getTriggerNotificationIds();
+        const scheduled = await scheduleSlotNotifications(slots, now);
         set({ armed: true });
+        return { ok: true, scheduled };
       },
       disarm: () => {
         cancelAllNotifications();

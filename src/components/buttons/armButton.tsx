@@ -1,4 +1,4 @@
-import { Button } from "heroui-native";
+import { Button, useToast } from "heroui-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppStore } from "@/state/store";
 import { Colors } from "@/constants/colors";
@@ -7,6 +7,56 @@ export default function ArmButton() {
   const armed = useAppStore((s) => s.armed);
   const arm = useAppStore((s) => s.arm);
   const disarm = useAppStore((s) => s.disarm);
+  const { toast } = useToast();
+
+  const handlePress = async () => {
+    if (armed) {
+      disarm();
+      toast.show({
+        variant: "success",
+        label: "Disarmed",
+        description: "Scheduled reminders cancelled",
+      });
+      return;
+    }
+
+    try {
+      const result = await arm();
+      if (result.ok) {
+        if (result.scheduled > 0) {
+          toast.show({
+            variant: "success",
+            label: "Armed",
+            description: `${result.scheduled} rotation reminder${result.scheduled === 1 ? "" : "s"} scheduled`,
+          });
+        } else {
+          toast.show({
+            variant: "warning",
+            label: "Armed",
+            description: "No upcoming slots to schedule reminders for",
+          });
+        }
+      } else if (result.reason === "no-slots") {
+        toast.show({
+          variant: "danger",
+          label: "Couldn't arm",
+          description: "No show is scheduled today",
+        });
+      } else {
+        toast.show({
+          variant: "danger",
+          label: "Couldn't arm",
+          description: "Notification permission was denied — enable it in Settings",
+        });
+      }
+    } catch {
+      toast.show({
+        variant: "danger",
+        label: "Couldn't arm",
+        description: "Something went wrong while scheduling notifications",
+      });
+    }
+  };
 
   return (
     <Button
@@ -18,7 +68,7 @@ export default function ArmButton() {
       variant={armed ? "danger" : "tertiary"}
       feedbackVariant="scale-ripple"
       accessibilityLabel={armed ? "Disarm" : "Arm"}
-      onPress={armed ? disarm : arm}
+      onPress={handlePress}
     >
       <Ionicons
         name={armed ? "notifications" : "notifications-outline"}

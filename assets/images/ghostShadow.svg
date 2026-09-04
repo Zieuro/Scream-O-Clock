@@ -12,7 +12,18 @@
   <defs
      id="defs1" />
   <g
-     id="layer1">
+     id="layer9">
+    <rect
+       style="fill:#121212;fill-opacity:1;stroke-width:0.234511"
+       id="rect1"
+       width="211.66577"
+       height="211.66577"
+       x="5.6479951e-07"
+       y="0.32714933" />
+  </g>
+  <g
+     id="layer1"
+     transform="matrix(0.88116146,0,0,0.88116146,12.293117,-0.40705785)">
     <g
        id="g68"
        transform="matrix(1.3632901,0,0,1.3632901,-41.771211,-83.031661)">
@@ -43,4 +54,11 @@
          id="path67" />
     </g>
   </g>
+  <ellipse
+     style="fill:#1e1e1e;fill-opacity:1;stroke-width:0.264583"
+     id="path1"
+     cx="107.42083"
+     cy="203.23674"
+     rx="59.377647"
+     ry="8.1787395" />
 </svg>

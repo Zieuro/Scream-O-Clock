@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppStore } from "@/state/store";
+import { useLoadShow } from "@/hooks/useLoadShow";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { HeroUINativeProvider } from "heroui-native";
@@ -22,9 +22,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  useEffect(() => {
-    useAppStore.getState().loadShow(new Date());
-  }, []);
+  useLoadShow();
   useClock();
 
   if (!fontsLoaded) {

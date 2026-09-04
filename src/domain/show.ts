@@ -44,6 +44,9 @@ export function buildTodaysShow(
   endDate.setHours(endHour, 0, 0, 0);
   const endTime = endDate.getTime();
 
+  if (clearHour < thisConfig.callHour) {
+    clearDate.setDate(clearDate.getDate() + 1);
+  }
   clearDate.setHours(clearHour, 0, 0, 0);
   const clearTime = clearDate.getTime();
 
