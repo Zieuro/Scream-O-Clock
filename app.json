@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Scream-O-Clock",
+    "name": "Scream O' Clock",
     "slug": "Scream-O-Clock",
     "version": "2.0.0",
     "orientation": "portrait",
@@ -12,7 +12,7 @@
       "bundleIdentifier": "com.zieuro.screamoclock"
     },
     "android": {
-      "package": "com.zieuro.screamoclock",
+      "package": "com.zieuro.scream_o_clock",
       "adaptiveIcon": {
         "backgroundColor": "#121212",
         "foregroundImage": "./assets/images/app-icon-foreground.png",
@@ -40,14 +40,18 @@
         }
       ],
       "./plugins/withNotifeeMaven",
-      [
-        "@harkenapp/sdk-react-native"
-      ],
+      ["@harkenapp/sdk-react-native"],
       "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fbb6a46d-4172-4391-b6ed-2f521a7b2350"
+      }
     }
   }
 }
