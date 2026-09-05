@@ -1,4 +1,5 @@
 import notifee, { AuthorizationStatus, AndroidImportance, TriggerType } from "@notifee/react-native";
+import { Platform } from "react-native";
 import { Slot } from "@/domain/types";
 import { getFutureSlots } from "@/domain/slots";
 
@@ -47,9 +48,16 @@ export function cancelAllNotifications() {
 export async function requestPermissions() {
   const settings = await notifee.getNotificationSettings();
 
-  if (settings.authorizationStatus == AuthorizationStatus.NOT_DETERMINED) {
+  if (settings.authorizationStatus !== AuthorizationStatus.AUTHORIZED) {
     const permission = await notifee.requestPermission();
-    return permission.authorizationStatus == AuthorizationStatus.AUTHORIZED;
+    return permission.authorizationStatus === AuthorizationStatus.AUTHORIZED;
   }
-  return settings.authorizationStatus == AuthorizationStatus.AUTHORIZED;
+
+  return true;
+}
+
+export function openNotificationSettings() {
+  if (Platform.OS === "android") {
+    notifee.openNotificationSettings();
+  }
 }

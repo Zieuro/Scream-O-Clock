@@ -1,6 +1,7 @@
 import { Button, useToast } from "heroui-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppStore } from "@/state/store";
+import { openNotificationSettings } from "@/services/notifications";
 import { Colors } from "@/constants/colors";
 
 export default function ArmButton() {
@@ -46,7 +47,12 @@ export default function ArmButton() {
         toast.show({
           variant: "danger",
           label: "Couldn't arm",
-          description: "Notification permission was denied — enable it in Settings",
+          description: "Notification permission was denied",
+          actionLabel: "Settings",
+          onActionPress: ({ hide }) => {
+            openNotificationSettings();
+            hide();
+          },
         });
       }
     } catch {
