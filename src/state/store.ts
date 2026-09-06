@@ -25,6 +25,8 @@ interface AppState {
   slots: Slot[];
   armed: boolean;
   ringingSlot: string | null;
+  showBuiltFor: string | null;
+  hydrated: boolean;
 
   //actions
   tick: (now: number) => void;
@@ -42,6 +44,8 @@ export const useAppStore = create<AppState>()(
       slots: [],
       armed: false,
       ringingSlot: null,
+      showBuiltFor: null,
+      hydrated: false,
 
       tick: (now) => set({ now }),
       loadShow: async (date) => {
@@ -58,7 +62,7 @@ export const useAppStore = create<AppState>()(
           set({ show: null, slots: [] });
         }
         cancelAllNotifications();
-        set({ armed: false });
+        set({ armed: false, showBuiltFor: date.toDateString() });
       },
       arm: async () => {
         const { slots } = get();
@@ -87,7 +91,11 @@ export const useAppStore = create<AppState>()(
         show: state.show,
         slots: state.slots,
         armed: state.armed,
+        showBuiltFor: state.showBuiltFor,
       }),
+      onRehydrateStorage: () => () => {
+        useAppStore.setState({ hydrated: true });
+      },
     },
   ),
 );
