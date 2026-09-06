@@ -56,11 +56,12 @@ export const useAppStore = create<AppState>()(
         const role = useSettingsStore.getState().role;
 
         const show = buildTodaysShow(date, config, role);
+        // no-show days keep the previously built show
+        // getPhase still returns null past clear time
         if (show != null) {
           set({ show: show, slots: buildSlots(show, rows) });
-        } else {
-          set({ show: null, slots: [] });
         }
+
         cancelAllNotifications();
         set({ armed: false, showBuiltFor: date.toDateString() });
       },
