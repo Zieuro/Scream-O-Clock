@@ -5,12 +5,14 @@ import { Role, RoleType } from "@/domain/types";
 
 interface SettingState {
   //state
+  hasOnboarded: boolean;
   positionView: boolean;
   roleType: RoleType;
   role: Role;
   numFormat: boolean;
 
   //actions
+  setHasOnboarded: (hasOnboarded: boolean) => void;
   setPositionView: (positionView: boolean) => void;
   setRoleType: (roleType: RoleType) => void;
   setRole: (role: Role) => void;
@@ -20,11 +22,13 @@ interface SettingState {
 export const useSettingsStore = create<SettingState>()(
   persist(
     (set) => ({
+      hasOnboarded: false,
       positionView: true, // Option to display positions
       roleType: "standard",
       role: "a",
       numFormat: false,
 
+      setHasOnboarded: (hasOnboarded) => set({ hasOnboarded }),
       setPositionView: (positionView) => set({ positionView }), // Action to toggle, shows by 
       setRoleType: (roleType) => set({ roleType }),
       setRole: (role) => set({ role }),

@@ -41,6 +41,7 @@ export default function RootLayout() {
       <HeroUINativeProvider config={{ devInfo: { stylingPrinciples: false } }}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
           <Stack.Screen
             name="settings"
             options={{
