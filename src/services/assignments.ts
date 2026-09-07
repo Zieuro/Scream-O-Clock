@@ -11,3 +11,14 @@ export async function fetchRows(): Promise<Row[] | null> {
 
   return data as Row[];
 }
+
+export async function fetchSpecialtyRows(): Promise<Row[] | null> {
+  const { data, error } = await supabase.from("specialty_slot_assignment").select("id, a, b").order("id");
+
+  if (error) {
+    console.log(error);
+    return null;
+  }
+
+  return data as Row[];
+}

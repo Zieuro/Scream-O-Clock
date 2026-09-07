@@ -31,7 +31,7 @@ export default function RebuildButton() {
       <Dialog.Trigger asChild>
         <Button
           variant="danger-soft"
-          className="rounded-full shadow-lg shadow-neutral-950 outline-1 outline-zinc-800"
+          className="rounded-full shadow-lg shadow-neutral-950 outline-1 outline-primary/10"
         >
           <Text className="font-mpu-medium text-xl text-foreground">
             Restart App

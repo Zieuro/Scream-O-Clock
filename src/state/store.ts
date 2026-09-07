@@ -11,7 +11,7 @@ import {
   requestPermissions,
 } from "@/services/notifications";
 import { fetchConfig, default_config } from "@/services/config";
-import { fetchRows } from "@/services/assignments";
+import { fetchRows, fetchSpecialtyRows } from "@/services/assignments";
 import { useSettingsStore } from "./settingsStore";
 
 export type ArmResult =
@@ -52,7 +52,12 @@ export const useAppStore = create<AppState>()(
         // const config_response = await fetchConfig();
         // const config = config_response ?? default_config;
         const config = default_config;
-        const rows = await fetchRows();
+        const roleType = useSettingsStore.getState().roleType;
+        const rows =
+          roleType === "standard"
+            ? await fetchRows()
+            : await fetchSpecialtyRows();
+        console.log(rows);
         const role = useSettingsStore.getState().role;
 
         const show = buildTodaysShow(date, config, role);

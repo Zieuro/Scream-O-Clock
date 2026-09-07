@@ -15,7 +15,6 @@ export default function Index() {
   const showType = show ? getPhase(now, show) : null;
 
   function whichShow() {
-    console.log(showType)
     switch (showType) {
       case "preShow":
         return <PreShow />;
@@ -27,6 +26,7 @@ export default function Index() {
         return <NoShow />;
     }
   }
+
   return (
     <SafeAreaView
       edges={{ bottom: true }}

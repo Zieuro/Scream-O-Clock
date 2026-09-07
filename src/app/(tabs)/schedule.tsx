@@ -4,12 +4,14 @@ import { Colors } from "@/constants/colors";
 import { useAppStore } from "@/state/store";
 import { fmt, POS_STYLE, getScheduleLabel } from "@/constants/format";
 import { useSettingsStore } from "@/state/settingsStore";
+import { getCurrentSlot } from "@/domain/slots";
 
 export default function Schedule() {
   const { slots, now } = useAppStore();
   const numFormat = useSettingsStore((s) => s.numFormat);
-  const positionView = useSettingsStore((s) => s.positionView)
-  
+  const positionView = useSettingsStore((s) => s.positionView);
+  const currentID = getCurrentSlot(slots, now)?.id;
+
   return (
     <SafeAreaView
       edges={{ bottom: true }}
@@ -59,7 +61,7 @@ export default function Schedule() {
               /* Row View */
               <View
                 key={slot.id}
-                className="flex-row items-center border-card border-b-2 pl-5 py-3"
+                className={`flex-row items-center border-card border-b-2 pl-5 py-3 ${slot.id === currentID ? "bg-primary/10" : ""}`}
               >
                 {/* Time View */}
                 <View className="w-[30%] border-r-2 border-card">
@@ -76,11 +78,17 @@ export default function Schedule() {
                 <View className="flex-1 flex-row">
                   {(["a", "b", "c"] as const).map((role) => {
                     const p = slot.row?.[role]; // Temporary pos
-                    const pos = p && getScheduleLabel(p, positionView)
+                    const pos = p && getScheduleLabel(p, positionView);
                     return (
                       <View key={role} className="flex-1 items-center ">
-                        <Text className={pos ? POS_STYLE[pos].className : "font-quicksand-semibold text-foreground text-lg"}>
-                          {pos ? POS_STYLE[pos].label : "-"}
+                        <Text
+                          className={
+                            pos
+                              ? POS_STYLE[pos]?.className
+                              : "font-quicksand-semibold text-foreground text-lg"
+                          }
+                        >
+                          {pos ? POS_STYLE[pos]?.label : "-"}
                         </Text>
                       </View>
                     );
