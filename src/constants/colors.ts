@@ -10,5 +10,6 @@ export const Colors = {
   borderSubtle: "#262626",
 
   primary: "#A72023",
-  secondary: "#2B2D42",
+  secondary: "#D76E23",
+  tertiary: "#a78bfa",
 };

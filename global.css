@@ -17,7 +17,8 @@
 
     /* Interactive elements */
     --color-primary: #a72023;
-    --color-secondary: #2b2d42;
+    --color-secondary: #C66B2B;
+    --color-tertiary: #a78bfa;
 
     /* Fonts - heroui base (Inter) */
     --font-thin: "Inter_100Thin";

@@ -18,17 +18,33 @@ export function getLabel(pos: Position): string {
   }
 }
 
-export function getScheduleLabel(pos: Position): string {
-  switch (pos) {
-    case "pos1":
-      return "1";
-    case "pos2":
-      return "2";
-    case "meal":
-      return "MEAL";
-    case "off":
-      return "BREAK";
-    case "on":
-      return "ON";
+export const POS_STYLE: Record<Position, { label: string; className: string }> =
+  {
+    pos1: {
+      label: "1",
+      className: "font-quicksand-semibold text-foreground text-xl",
+    },
+    pos2: {
+      label: "2",
+      className: "font-quicksand-semibold text-foreground text-xl",
+    },
+    meal: {
+      label: "MEAL",
+      className: "font-quicksand-semibold text-tertiary text-lg",
+    },
+    off: {
+      label: "BREAK",
+      className: "font-quicksand-semibold text-secondary text-lg",
+    },
+    on: {
+      label: "ON",
+      className: "font-quicksand-semibold text-foreground text-lg",
+    },
+  };
+
+export function getScheduleLabel(pos: Position, positionView: boolean): Position {
+  if (!positionView && (pos === "pos1" || pos === "pos2")) {
+    return "on"
   }
+  return (pos)
 }
