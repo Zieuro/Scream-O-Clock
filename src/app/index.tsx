@@ -26,7 +26,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!hydrated) return;
-    router.replace(hasOnboarded ? "/(tabs)" : "/onboarding");
+    router.replace("/onboarding");
   }, [hydrated, hasOnboarded]);
 
   return null;

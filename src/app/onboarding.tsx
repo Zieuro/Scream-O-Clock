@@ -1,6 +1,14 @@
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { FC } from "react";
-import { View, StyleSheet, Text, Pressable, useWindowDimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Pressable,
+  useWindowDimensions,
+  Platform,
+} from "react-native";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -16,7 +24,6 @@ import { FeatureItem } from "@/components/onboarding/feature-item";
 import { StaggeredText } from "@/components/onboarding/stagged-text";
 import { Colors } from "@/constants/colors";
 import { useSettingsStore } from "@/state/settingsStore";
-
 // scream-o-clock-onboarding-carousel-animation 🔽
 
 // Enables animating pointerEvents for the last-page CTA reveal
@@ -26,14 +33,34 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const HEADER_HEIGHT = 50; // Fixed header height for content padding calculations
 const GRADIENT_HEIGHT = 50; // Fade gradient height to blend bottom content seamlessly
 
-// TEMPLATE PAGES: one entry per page — swap the emoji, description, and
-// headline below to customize. Keep exactly one item per page.
+// TEMPLATE PAGES: one entry per page — swap the image and description below to
+// customize. Keep exactly one item per page. Images are static requires; drop
+// your artwork into assets/images/onboarding/ and update the paths.
 const SLIDES = [
-  { emoji: "👻", description: "Template page 1 — introduce the app here ✍️" },
-  { emoji: "⏰", description: "Template page 2 — describe the next feature 🧠" },
-  { emoji: "🎃", description: "Template page 3 — describe the next feature 🥗" },
-  { emoji: "😱", description: "Template page 4 — describe the next feature 🕯️" },
-  { emoji: "🧛", description: "Template page 5 — the final pitch 💀" },
+  {
+    // Placeholder art — replace with final onboarding images
+    image: require("@/assets/images/onboarding/onboarding1_1.png"),
+    description: "Set all alarms for the night with one press",
+  },
+  {
+    image: require("@/assets/images/onboarding/onboarding2_1.png"),
+    description:
+      "See where you are and where you're going next with a countdown timer",
+  },
+  {
+    image: require("@/assets/images/onboarding/onboarding3_1.png"),
+    description: "See the schedule for the whole night and where you are now",
+  },
+  {
+    image: require("@/assets/images/onboarding/onboarding4_1.png"),
+    description:
+      "Choose the rotation that works with your venue and make the app yours",
+  },
+  {
+    image: require("@/assets/images/onboarding/onboarding5_1.png"),
+    description:
+      "Spend more time scaring and less time digging through alarms and spreadsheets",
+  },
 ];
 
 const LAST_SLIDE_INDEX = SLIDES.length - 1;
@@ -44,7 +71,9 @@ export const Onboarding: FC = () => {
 
   // Scroll tracking shared values for coordinated animations across components
   const prevOffsetX = useSharedValue(0); // Previous scroll position for direction detection
-  const scrollDirection = useSharedValue<"to-left" | "to-right" | "idle">("idle"); // Current scroll direction for animation coordination
+  const scrollDirection = useSharedValue<"to-left" | "to-right" | "idle">(
+    "idle",
+  ); // Current scroll direction for animation coordination
 
   // Index tracking for carousel state management
   const activeIndex = useSharedValue(0); // Current active carousel item (drives dots, text, feature animations)
@@ -65,14 +94,16 @@ export const Onboarding: FC = () => {
       // Direction detection logic for feature item transition animations
       if (
         positivePrevOffsetX - positiveOffsetX < 0 &&
-        (scrollDirection.get() === "idle" || scrollDirection.get() === "to-left")
+        (scrollDirection.get() === "idle" ||
+          scrollDirection.get() === "to-left")
       ) {
         scrollDirection.set("to-right"); // Scrolling right (next item)
       }
 
       if (
         positivePrevOffsetX - positiveOffsetX > 0 &&
-        (scrollDirection.get() === "idle" || scrollDirection.get() === "to-right")
+        (scrollDirection.get() === "idle" ||
+          scrollDirection.get() === "to-right")
       ) {
         scrollDirection.set("to-left"); // Scrolling left (previous item)
       }
@@ -113,25 +144,29 @@ export const Onboarding: FC = () => {
       <View
         className="absolute left-0 right-0 items-center justify-center"
         style={{ height: HEADER_HEIGHT, top: insets.top + 8 }}
-      >
-        <View
-          className="w-12 h-12 rounded-[17px] items-center justify-center"
-          style={[styles.borderCurve, { backgroundColor: Colors.card }]}
-        >
-          <Text className="text-xl">🎃</Text>
-        </View>
-      </View>
+      ></View>
       {/* Carousel: width-locked slides, one per page */}
       <Animated.FlatList
         data={SLIDES}
         renderItem={({ item }) => (
-          <View className="flex-1 items-center justify-center" style={{ width }}>
+          <View
+            className="flex-1 items-center justify-center"
+            style={{ width }}
+          >
             {/* Slide placeholder card — swap for real page content */}
             <View
-              className="w-3/4 h-full rounded-[40px] items-center justify-center"
+              className="w-3/4 h-full rounded-[40px] overflow-hidden items-center border-card border-2"
               style={[styles.borderCurve, { backgroundColor: Colors.card }]}
             >
-              <Text className="text-8xl">{item.emoji}</Text>
+              <Image
+                source={item.image}
+                contentFit="cover"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: Platform.OS === "ios" ? "10%" : 24,
+                }}
+              />
             </View>
           </View>
         )}
@@ -145,7 +180,10 @@ export const Onboarding: FC = () => {
       {/* Bottom panel: staggered headline + feature items + dots + CTA */}
       <View
         className="absolute bottom-0 left-0 right-0 px-8 pt-6"
-        style={{ paddingBottom: insets.bottom + 8, backgroundColor: Colors.background }}
+        style={{
+          paddingBottom: insets.bottom + 8,
+          backgroundColor: Colors.background,
+        }}
       >
         {/* Fade gradient creates seamless blend from transparent to background color */}
         <LinearGradient
@@ -156,13 +194,39 @@ export const Onboarding: FC = () => {
           {/* Overlapping text animations - only one visible per carousel state */}
           <View className="mb-5 items-center justify-center h-8">
             <View className="absolute">
-              <StaggeredText text="Welcome to..." activeIndex={activeIndex} showIndex={[0, 1]} />
+              <StaggeredText
+                text={"Welcome to\nScream O' Clock"}
+                activeIndex={activeIndex}
+                showIndex={[0]}
+              />
             </View>
             <View className="absolute">
-              <StaggeredText text="Scream-O-Clock" activeIndex={activeIndex} showIndex={[2, 3]} />
+              <StaggeredText
+                text="Stay on time..."
+                activeIndex={activeIndex}
+                showIndex={[1]}
+              />
             </View>
             <View className="absolute">
-              <StaggeredText text="Ready to scream?" activeIndex={activeIndex} showIndex={[4]} />
+              <StaggeredText
+                text="Rotations made easy..."
+                activeIndex={activeIndex}
+                showIndex={[2]}
+              />
+            </View>
+            <View className="absolute">
+              <StaggeredText
+                text="Options for everyone..."
+                activeIndex={activeIndex}
+                showIndex={[3]}
+              />
+            </View>
+            <View className="absolute">
+              <StaggeredText
+                text="Ready to feed the Fear?"
+                activeIndex={activeIndex}
+                showIndex={[4]}
+              />
             </View>
           </View>
           <View className="h-14 w-full mb-8 items-center justify-center">
@@ -181,10 +245,17 @@ export const Onboarding: FC = () => {
         </View>
         <AnimatedPressable
           className="h-[56px] px-3 rounded-[19px] items-center justify-center"
-          style={[styles.borderCurve, rButtonStyle, { backgroundColor: Colors.primary }]}
+          style={[
+            styles.borderCurve,
+            rButtonStyle,
+            { backgroundColor: Colors.primary },
+          ]}
           onPress={startScaring}
         >
-          <Text className="text-lg font-medium" style={{ color: Colors.foreground }}>
+          <Text
+            className="text-lg font-medium"
+            style={{ color: Colors.foreground }}
+          >
             Start Scaring
           </Text>
         </AnimatedPressable>

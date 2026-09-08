@@ -3,7 +3,6 @@ import { SharedValue, useAnimatedReaction, useSharedValue } from "react-native-r
 import type { FC } from "react";
 
 import { AnimatedChar } from "./animated-char";
-import React from "react";
 import { scheduleOnRN } from "react-native-worklets";
 
 // scream-o-clock-onboarding-carousel-animation 🔽
@@ -40,18 +39,30 @@ export const StaggeredText: FC<Props> = ({ text, activeIndex, showIndex }: Props
     },
   );
 
+  const lines = text.split("\n");
+
   return (
-    <View className="flex-row flex-wrap">
-      {text.split("").map((char, index) => (
-        <React.Fragment key={index}>
-          <AnimatedChar
-            char={char}
-            index={index} // Character position for stagger timing
-            totalCount={text.length} // Total characters for animation calculations
-            progress={progress} // Shared animation trigger
-          />
-        </React.Fragment>
-      ))}
+    <View className="items-center">
+      {lines.map((line, lineIndex) => {
+        // Continue the stagger cascade across line breaks
+        const charOffset = lines
+          .slice(0, lineIndex)
+          .reduce((sum, prevLine) => sum + prevLine.length, 0);
+
+        return (
+          <View key={lineIndex} className="flex-row flex-wrap justify-center">
+            {line.split("").map((char, index) => (
+              <AnimatedChar
+                key={index}
+                char={char}
+                index={charOffset + index} // Global character position for stagger timing
+                totalCount={text.length} // Total characters for animation calculations
+                progress={progress} // Shared animation trigger
+              />
+            ))}
+          </View>
+        );
+      })}
     </View>
   );
 };
