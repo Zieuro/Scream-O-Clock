@@ -57,12 +57,20 @@ export const useAppStore = create<AppState>()(
           roleType === "standard"
             ? await fetchRows()
             : await fetchSpecialtyRows();
-        console.log(rows);
         const role = useSettingsStore.getState().role;
 
-        const show = buildTodaysShow(date, config, role);
-        // no-show days keep the previously built show
-        // getPhase still returns null past clear time
+        /* In case yesterday's show is null during post-show hours,
+          this will manually create yesterday's show */
+        const yesterday = new Date(date);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const show =
+          date.getHours() < 3
+            ? (buildTodaysShow(yesterday, config, role) ??
+              buildTodaysShow(date, config, role))
+            : buildTodaysShow(date, config, role);
+        
+        /* no-show days keep the previously built show
+          getPhase still returns null past clear time */
         if (show != null) {
           set({ show: show, slots: buildSlots(show, rows) });
         }

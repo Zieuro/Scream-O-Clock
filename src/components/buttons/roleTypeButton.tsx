@@ -30,7 +30,7 @@ export default function RoleTypeButton() {
           variant="tertiary"
           className="mx-15 bg-card outline-1 outline-neutral-800 shadow-lg shadow-neutral-950"
         >
-          <Text className="font-mpu-semibold text-3xl text-foreground">
+          <Text className="font-mpu-semibold text-2xl text-foreground">
             Role Type
           </Text>
         </Button>

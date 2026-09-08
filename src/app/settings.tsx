@@ -27,7 +27,7 @@ export default function Schedule() {
           orientation="horizontal"
         />
 
-      <View className="w-11/12 max-w-105 my-6 gap-5">
+      <View className="w-11/12 max-w-105 my-6 gap-7">
         <RoleTypeButton />
         <PositionSwitch />
       </View>

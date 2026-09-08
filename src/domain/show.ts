@@ -1,9 +1,10 @@
 import { Role, Season_Config, Show } from "./types";
+import { useSettingsStore } from "@/state/settingsStore";
 
 export function buildTodaysShow(
   date: Date,
   config: Season_Config,
-  role: Role
+  role: Role,
 ): Show | null {
   const thisMonth = date.getMonth();
   const today = date.getDay();
@@ -50,11 +51,15 @@ export function buildTodaysShow(
   clearDate.setHours(clearHour, 0, 0, 0);
   const clearTime = clearDate.getTime();
 
+  // Checks roleType and sets slotMinutes accordingly
+  const roleType = useSettingsStore.getState().roleType
+  const slotMinutes = (roleType === "specialty") ? 30 : 20
+
   return {
     callTime: callTime,
     startTime: startTime,
     endTime: endTime,
     clearTime: clearTime,
-    slotMinutes: 20, // fixed rotation interval
+    slotMinutes: slotMinutes, // rotation interval
   };
 }

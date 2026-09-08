@@ -5,13 +5,17 @@ import { useAppStore } from "@/state/store";
 import { fmt, POS_STYLE, getScheduleLabel } from "@/constants/format";
 import { useSettingsStore } from "@/state/settingsStore";
 import { getCurrentSlot } from "@/domain/slots";
+import { Role } from "@/domain/types";
 
 export default function Schedule() {
   const { slots, now } = useAppStore();
   const numFormat = useSettingsStore((s) => s.numFormat);
   const positionView = useSettingsStore((s) => s.positionView);
+  const roleType = useSettingsStore((s) => s.roleType);
   const currentID = getCurrentSlot(slots, now)?.id;
 
+  const columns: Role[] =
+    roleType === "specialty" ? ["a", "b"] : ["a", "b", "c"];
   return (
     <SafeAreaView
       edges={{ bottom: true }}
@@ -47,11 +51,13 @@ export default function Schedule() {
                 </Text>
               </View>
 
-              <View className="flex-1 items-center">
-                <Text className="font-quicksand-bold text-xl text-foreground">
-                  {numFormat ? "3" : "C"}
-                </Text>
-              </View>
+              {roleType === "standard" && (
+                <View className="flex-1 items-center">
+                  <Text className="font-quicksand-bold text-xl text-foreground">
+                    {numFormat ? "3" : "C"}
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
 
@@ -76,7 +82,7 @@ export default function Schedule() {
 
                 {/* ABC Schedule View */}
                 <View className="flex-1 flex-row">
-                  {(["a", "b", "c"] as const).map((role) => {
+                  {columns.map((role) => {
                     const p = slot.row?.[role]; // Temporary pos
                     const pos = p && getScheduleLabel(p, positionView);
                     return (
