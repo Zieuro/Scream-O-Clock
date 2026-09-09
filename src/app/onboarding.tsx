@@ -24,6 +24,7 @@ import { FeatureItem } from "@/components/onboarding/feature-item";
 import { StaggeredText } from "@/components/onboarding/stagged-text";
 import { Colors } from "@/constants/colors";
 import { useSettingsStore } from "@/state/settingsStore";
+import { useSplashReveal } from "@/hooks/useSplashReveal";
 // scream-o-clock-onboarding-carousel-animation 🔽
 
 // Enables animating pointerEvents for the last-page CTA reveal
@@ -66,6 +67,7 @@ const SLIDES = [
 const LAST_SLIDE_INDEX = SLIDES.length - 1;
 
 export const Onboarding: FC = () => {
+  useSplashReveal();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
 

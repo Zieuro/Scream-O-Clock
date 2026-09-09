@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useLoadShow } from "@/hooks/useLoadShow";
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -24,20 +23,16 @@ export default function RootLayout() {
   const [fontsLoaded] = useLoadedFonts();
   const settingsHydrated = useHydrated();
   const storeHydrated = useAppStore((s) => s.hydrated);
-
-  // Keep the splash screen up until fonts are ready and both persisted
-  // stores have rehydrated, so the first revealed frame is a real screen
-  // rather than the blank index gate.
-  useEffect(() => {
-    if (fontsLoaded && settingsHydrated && storeHydrated) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, settingsHydrated, storeHydrated]);
+  const ready = fontsLoaded && settingsHydrated && storeHydrated;
 
   useLoadShow();
   useClock();
 
-  if (!fontsLoaded) {
+  // Nothing renders — the splash stays up — until fonts and both persisted
+  // stores are ready. The splash itself is revealed by the destination
+  // screens (useSplashReveal), never here, so the blank index route that
+  // redirects on launch is never visible.
+  if (!ready) {
     return null;
   }
 
@@ -52,8 +47,18 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <HeroUINativeProvider config={{ devInfo: { stylingPrinciples: false } }}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="index"
+            options={{ headerShown: false, animation: "none" }}
+          />
+          <Stack.Screen
+            name="(tabs)"
+            options={{ headerShown: false, animation: "none" }}
+          />
+          <Stack.Screen
+            name="onboarding"
+            options={{ headerShown: false, animation: "none" }}
+          />
           <Stack.Screen
             name="settings"
             options={{

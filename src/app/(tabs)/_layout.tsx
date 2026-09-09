@@ -1,7 +1,10 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { Colors } from "@/constants/colors";
+import { useSplashReveal } from "@/hooks/useSplashReveal";
 
 export default function TabsLayout() {
+  useSplashReveal();
+
   return (
     <NativeTabs
       backgroundColor={Colors.background}
