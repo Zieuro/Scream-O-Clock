@@ -72,12 +72,9 @@ export async function scheduleSlotAlarms(
             textColor: "#FFFFFF",
             systemImageName: "stop.circle",
           },
-          secondaryButton: {
-            text: "Open",
-            textColor: "#FFFFFF",
-            systemImageName: "arrow.up.app",
-          },
-          secondaryButtonBehavior: "custom" as const,
+          // No secondary button: secondaryButtonBehavior "custom" requires a
+          // native AppIntent the wrapper doesn't register (it passes
+          // secondaryIntent: nil), which renders a dead, icon-less button.
         },
       },
       tintColor: Colors.primary,

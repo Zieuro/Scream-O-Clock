@@ -12,6 +12,7 @@ export default function Schedule() {
   const numFormat = useSettingsStore((s) => s.numFormat);
   const positionView = useSettingsStore((s) => s.positionView);
   const roleType = useSettingsStore((s) => s.roleType);
+  const role = useSettingsStore((s) => s.role)
   const currentID = getCurrentSlot(slots, now)?.id;
 
   const columns: Role[] =
@@ -32,7 +33,7 @@ export default function Schedule() {
           {/* Header View */}
           <View className="flex-row gap-4 bg-card rounded-t-xl p-2 items-center">
             <View className="w-[30%] items-center">
-              <Text className="font-quicksand-bold text-xl text-foreground">
+              <Text className="font-mpu-bold text-xl text-foreground">
                 Time
               </Text>
             </View>
@@ -40,20 +41,20 @@ export default function Schedule() {
             {/*ABC View */}
             <View className="flex-1 flex-row">
               <View className="flex-1 items-center">
-                <Text className="font-quicksand-bold text-xl text-foreground">
+                <Text className={`font-mpu-bold text-xl text-foreground ${role === "a" && "text-primary font-mpu-extrabold"}`}>
                   {numFormat ? "1" : "A"}
                 </Text>
               </View>
 
               <View className="flex-1 items-center">
-                <Text className="font-quicksand-bold text-xl text-foreground">
+                <Text className={`font-mpu-bold text-xl text-foreground ${role === "b" && "text-primary font-mpu-extrabold"}`}>
                   {numFormat ? "2" : "B"}
                 </Text>
               </View>
 
               {roleType === "standard" && (
                 <View className="flex-1 items-center">
-                  <Text className="font-quicksand-bold text-xl text-foreground">
+                  <Text className={`font-mpu-bold text-xl text-foreground ${role === "c" && "text-primary font-mpu-extrabold"}`}>
                     {numFormat ? "3" : "C"}
                   </Text>
                 </View>

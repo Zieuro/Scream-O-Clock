@@ -11,7 +11,8 @@
       "icon": "./assets/images/app-icon.png",
       "bundleIdentifier": "com.zieuro.screamoclock",
       "infoPlist": {
-        "NSAlarmKitUsageDescription": "Scream O' Clock schedules alarms for your rotation times."
+        "NSAlarmKitUsageDescription": "Scream O' Clock schedules alarms for your rotation times.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {

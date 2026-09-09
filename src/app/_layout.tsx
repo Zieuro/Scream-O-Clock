@@ -11,6 +11,8 @@ import { harkenDarkTheme } from "@/constants/harken";
 import { useClock } from "@/hooks/useClock";
 import { HarkenProvider } from "@harkenapp/sdk-react-native";
 import { registerNotificationEvents } from "@/services/notifications";
+import { useHydrated } from "@/hooks/useHydrated";
+import { useAppStore } from "@/state/store";
 
 // Registered at module scope so background events are handled even when the
 // JS bundle is woken solely to deliver them.
@@ -20,12 +22,17 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useLoadedFonts();
+  const settingsHydrated = useHydrated();
+  const storeHydrated = useAppStore((s) => s.hydrated);
 
+  // Keep the splash screen up until fonts are ready and both persisted
+  // stores have rehydrated, so the first revealed frame is a real screen
+  // rather than the blank index gate.
   useEffect(() => {
-    if (fontsLoaded) {
+    if (fontsLoaded && settingsHydrated && storeHydrated) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, settingsHydrated, storeHydrated]);
 
   useLoadShow();
   useClock();
@@ -57,6 +64,7 @@ export default function RootLayout() {
               headerBackTitle: "Back",
               headerBackButtonDisplayMode: "generic",
               headerTintColor: Colors.foreground,
+              contentStyle: { backgroundColor: Colors.dark },
             }}
           />
         </Stack>

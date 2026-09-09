@@ -60,13 +60,16 @@ export const useAppStore = create<AppState>()(
         const role = useSettingsStore.getState().role;
 
         /* In case yesterday's show is null during post-show hours,
-          this will manually create yesterday's show */
+          this will manually create yesterday's show. After yesterday's
+          clearTime (e.g. 2am), it rolls forward to today's show instead,
+          otherwise the <3am window would show No Show until 3am. */
         const yesterday = new Date(date);
         yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayShow =
+          date.getHours() < 3 ? buildTodaysShow(yesterday, config, role) : null;
         const show =
-          date.getHours() < 3
-            ? (buildTodaysShow(yesterday, config, role) ??
-              buildTodaysShow(date, config, role))
+          yesterdayShow && yesterdayShow.clearTime > date.getTime()
+            ? yesterdayShow
             : buildTodaysShow(date, config, role);
         
         /* no-show days keep the previously built show

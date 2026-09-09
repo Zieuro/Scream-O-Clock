@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { FC } from "react";
+import { FC } from "react";
 import {
   View,
   StyleSheet,
@@ -164,7 +164,7 @@ export const Onboarding: FC = () => {
                 style={{
                   width: "100%",
                   height: "100%",
-                  borderRadius: Platform.OS === "ios" ? "10%" : 24,
+                  borderRadius: Platform.OS === "ios" ? "" : 24,
                 }}
               />
             </View>
@@ -177,10 +177,14 @@ export const Onboarding: FC = () => {
         onScroll={scrollHandler}
         scrollEventThrottle={16} // ~60fps scroll updates for smooth animations
       />
-      {/* Bottom panel: staggered headline + feature items + dots + CTA */}
+      {/* Bottom panel: staggered headline + feature items + dots + CTA.
+          minHeight scales the panel with screen height; the flex-1 spacer
+          pushes the description, dots, and CTA down on larger phones and
+          collapses to zero on smaller ones. */}
       <View
-        className="absolute bottom-0 left-0 right-0 px-8 pt-6"
+        className="absolute bottom-0 left-0 right-0 px-8 pt-6 gap-6"
         style={{
+          minHeight: "30%",
           paddingBottom: insets.bottom + 8,
           backgroundColor: Colors.background,
         }}
@@ -190,61 +194,61 @@ export const Onboarding: FC = () => {
           colors={["rgba(18,18,18,0)", Colors.background]} // 0% to 100% opacity fade
           style={styles.gradient}
         />
-        <View className="items-center mb-10">
-          {/* Overlapping text animations - only one visible per carousel state */}
-          <View className="mb-5 items-center justify-center h-8">
-            <View className="absolute">
-              <StaggeredText
-                text={"Welcome to\nScream O' Clock"}
-                activeIndex={activeIndex}
-                showIndex={[0]}
-              />
-            </View>
-            <View className="absolute">
-              <StaggeredText
-                text="Stay on time..."
-                activeIndex={activeIndex}
-                showIndex={[1]}
-              />
-            </View>
-            <View className="absolute">
-              <StaggeredText
-                text="Rotations made easy..."
-                activeIndex={activeIndex}
-                showIndex={[2]}
-              />
-            </View>
-            <View className="absolute">
-              <StaggeredText
-                text="Options for everyone..."
-                activeIndex={activeIndex}
-                showIndex={[3]}
-              />
-            </View>
-            <View className="absolute">
-              <StaggeredText
-                text="Ready to feed the Fear?"
-                activeIndex={activeIndex}
-                showIndex={[4]}
-              />
-            </View>
+        {/* Overlapping text animations - only one visible per carousel state */}
+        <View className="h-8 w-full items-center justify-center">
+          <View className="absolute">
+            <StaggeredText
+              text={"Welcome to\nScream O' Clock"}
+              activeIndex={activeIndex}
+              showIndex={[0]}
+            />
           </View>
-          <View className="h-14 w-full mb-8 items-center justify-center">
-            {SLIDES.map((item, index) => (
-              <FeatureItem
-                key={index}
-                label={item.description}
-                itemIndex={index}
-                activeIndex={activeIndex} // Drives enter/exit animations
-                prevIndex={prevIndex} // Determines transition direction
-              />
-            ))}
+          <View className="absolute">
+            <StaggeredText
+              text="Stay on time..."
+              activeIndex={activeIndex}
+              showIndex={[1]}
+            />
           </View>
-          {/* Pagination dots with smooth color transitions */}
-          <Dots numberOfDots={SLIDES.length} activeIndex={activeIndex} />
+          <View className="absolute">
+            <StaggeredText
+              text="Rotations made easy..."
+              activeIndex={activeIndex}
+              showIndex={[2]}
+            />
+          </View>
+          <View className="absolute">
+            <StaggeredText
+              text="Options for Everyone!"
+              activeIndex={activeIndex}
+              showIndex={[3]}
+            />
+          </View>
+          <View className="absolute">
+            <StaggeredText
+              text={"Ready to\nFEED THE FEAR?"}
+              activeIndex={activeIndex}
+              showIndex={[4]}
+            />
+          </View>
         </View>
+        {/* Responsive gap: all spare panel height goes between headline and description */}
+        <View className="flex-1" />
+        <View className="h-14 w-full items-center justify-center">
+          {SLIDES.map((item, index) => (
+            <FeatureItem
+              key={index}
+              label={item.description}
+              itemIndex={index}
+              activeIndex={activeIndex} // Drives enter/exit animations
+              prevIndex={prevIndex} // Determines transition direction
+            />
+          ))}
+        </View>
+        {/* Pagination dots with smooth color transitions */}
+        <Dots numberOfDots={SLIDES.length} activeIndex={activeIndex} />
         <AnimatedPressable
-          className="h-[56px] px-3 rounded-[19px] items-center justify-center"
+          className="h-14 px-3 rounded-[19px] items-center justify-center"
           style={[
             styles.borderCurve,
             rButtonStyle,
