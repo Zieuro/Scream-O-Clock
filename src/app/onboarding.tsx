@@ -58,6 +58,16 @@ const SLIDES = [
       "Choose the rotation that works with your venue and make the app yours",
   },
   {
+    image: require("@/assets/images/onboarding/onboarding_reset_test.png"),
+    description:
+      "Fix schedule bugs with one click.\nThere is an emergency restart button just in case the app fails to function properly ",
+  },
+  {
+    image: require("@/assets/images/onboarding/noai.png"),
+    description:
+      "We believe that creativity is what makes us human. That is why this app was not made using generative AI",
+  },
+  {
     image: require("@/assets/images/onboarding/onboarding5_1.png"),
     description:
       "Spend more time scaring and less time digging through alarms and spreadsheets",
@@ -226,11 +236,25 @@ export const Onboarding: FC = () => {
               showIndex={[3]}
             />
           </View>
+          <View className="absolute mb-10">
+            <StaggeredText
+              text={"Just in case..."}
+              activeIndex={activeIndex}
+              showIndex={[4]}
+            />
+          </View>
+          <View className="absolute">
+            <StaggeredText
+              text={"Made by Humans"}
+              activeIndex={activeIndex}
+              showIndex={[5]}
+            />
+          </View>
           <View className="absolute">
             <StaggeredText
               text={"Ready to\nFEED THE FEAR?"}
               activeIndex={activeIndex}
-              showIndex={[4]}
+              showIndex={[6]}
             />
           </View>
         </View>
