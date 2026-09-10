@@ -40,16 +40,19 @@ export default function PreShow() {
         progress={isAfterCalltime ? progress : 0}
         strokeBackground={Colors.borderSubtle}
       >
-        <Text
-          className="text-foreground text-6xl text-center w-full"
-          style={{
-            fontFamily: "Cinzel_700Bold_TNum",
-            fontVariant: ["tabular-nums"],
-            lineHeight: 98,
-          }}
-        >
-          {isAfterCalltime ? timeLabel : preTimeLabel}
-        </Text>
+        {(ringSize) => (
+          <Text
+            className="text-foreground text-center w-full"
+            style={{
+              fontFamily: "Cinzel_700Bold_TNum",
+              fontVariant: ["tabular-nums"],
+              fontSize: ringSize * 0.2,
+              lineHeight: ringSize * 0.2 * 1.633,
+            }}
+          >
+            {isAfterCalltime ? timeLabel : preTimeLabel}
+          </Text>
+        )}
       </CountdownRing>
 
       {isAfterCalltime && <View className="mb-5">

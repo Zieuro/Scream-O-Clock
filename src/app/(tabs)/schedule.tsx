@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-screens/experimental";
+import Screen, { IPAD_TAB_BAR_TOP_INSET, isIpad } from "@/components/screen";
 import { Colors } from "@/constants/colors";
 import { useAppStore } from "@/state/store";
 import { fmt, POS_STYLE, getScheduleLabel } from "@/constants/format";
@@ -50,7 +51,10 @@ export default function Schedule() {
       }}
     >
       {/* Page View */}
-      <View className="p-safe mx-2 flex-1">
+      <Screen
+        className="p-safe mx-2 flex-1"
+        style={{ marginTop: isIpad ? IPAD_TAB_BAR_TOP_INSET : 0 }}
+      >
         {/* Schedule View */}
         <View className="flex-1 border-3 border-card rounded-2xl overflow-y-hidden">
           {/* Header View */}
@@ -131,7 +135,7 @@ export default function Schedule() {
             ))}
           </ScrollView>
         </View>
-      </View>
+      </Screen>
     </SafeAreaView>
   );
 }

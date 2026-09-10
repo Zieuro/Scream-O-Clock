@@ -6,6 +6,7 @@ import Show from "@/components/phases/show";
 import PreShow from "@/components/phases/preShow";
 import PostShow from "@/components/phases/postShow";
 import NoShow from "@/components/phases/noShow";
+import Screen, { IPAD_TAB_BAR_TOP_INSET, isIpad } from "@/components/screen";
 import { Colors } from "@/constants/colors";
 import { getPhase } from "@/domain/slots";
 import { useAppStore } from "@/state/store";
@@ -33,13 +34,16 @@ export default function Index() {
       edges={{ bottom: true }}
       style={{ flex: 1, backgroundColor: Colors.background }}
     >
-      <View className="flex-1 pt-safe-offset-6 px-6 pb-6 bg-background gap-8">
+      <Screen
+        className="pt-safe-offset-6 px-6 pb-6 gap-8"
+        style={{ marginTop: isIpad ? IPAD_TAB_BAR_TOP_INSET : 0 }}
+      >
         <View className="flex-row justify-between">
           <ArmButton />
           <SettingsButton />
         </View>
         {whichShow()}
-      </View>
+      </Screen>
     </SafeAreaView>
   );
 }

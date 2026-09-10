@@ -4,7 +4,8 @@ import { ReactNode, useState } from "react";
 
 interface RingProps {
   progress: number
-  children?: ReactNode;
+  /** Pass a function of the measured ring size to scale content with the ring */
+  children?: ReactNode | ((size: number) => ReactNode);
   maxSize?: number;
   strokeRatio?: number;
   strokeBackground?: string;
@@ -70,7 +71,7 @@ export default function CountdownRing({
             style={StyleSheet.absoluteFill}
             className="items-center justify-center"
           >
-            {children}
+            {typeof children === "function" ? children(size) : children}
           </View>
         </View>
       )}

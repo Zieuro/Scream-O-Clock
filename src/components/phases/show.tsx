@@ -44,16 +44,21 @@ export default function Show() {
       </View>
 
       <CountdownRing progress={progress} strokeBackground={Colors.borderSubtle}>
-        <Text
-          className="text-foreground text-6xl text-center w-full"
-          style={{
-            fontFamily: "Cinzel_700Bold_TNum",
-            fontVariant: ["tabular-nums"],
-            lineHeight: 98,
-          }}
-        >
-          {timeLabel}
-        </Text>
+        {(ringSize) => (
+          <Text
+            className="text-foreground text-center w-full"
+            style={{
+              fontFamily: "Cinzel_700Bold_TNum",
+              fontVariant: ["tabular-nums"],
+              // Cinzel metrics: lineHeight = fontSize * 1.633 keeps the
+              // numerals centered; 60/98 at the 300px ring cap (as tuned)
+              fontSize: ringSize * 0.2,
+              lineHeight: ringSize * 0.2 * 1.633,
+            }}
+          >
+            {timeLabel}
+          </Text>
+        )}
       </CountdownRing>
 
       <View className="mb-5">

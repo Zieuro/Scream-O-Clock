@@ -7,10 +7,11 @@ import { Separator } from "heroui-native";
 import DonateButton from "@/components/buttons/donateButton";
 import FeedbackButton from "@/components/buttons/feedbackButton";
 import RebuildButton from "@/components/buttons/rebuildButton";
+import Screen from "@/components/screen";
 
 export default function Schedule() {
   return (
-    <View className="flex-1 flex-col pt-5 items-center bg-background gap-6">
+    <Screen className="flex-col pt-5 items-center gap-6">
         <Text className="font-mpu-semibold text-2xl text-muted">
           Select Your Role
         </Text>
@@ -39,6 +40,6 @@ export default function Schedule() {
         </View>
         <RebuildButton />
       </View>
-    </View>
+    </Screen>
   );
 }

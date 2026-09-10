@@ -79,7 +79,10 @@ const LAST_SLIDE_INDEX = SLIDES.length - 1;
 export const Onboarding: FC = () => {
   useSplashReveal();
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
+  const { width: windowWidth } = useWindowDimensions();
+  // Cap the carousel to the content column on large screens (iPad) so
+  // slides stay phone-proportioned and the snap math stays consistent.
+  const width = Math.min(windowWidth, 640);
 
   // Scroll tracking shared values for coordinated animations across components
   const prevOffsetX = useSharedValue(0); // Previous scroll position for direction detection
@@ -151,7 +154,12 @@ export const Onboarding: FC = () => {
   };
 
   return (
-    <View className="flex-1" style={{ backgroundColor: Colors.background }}>
+    <View
+      className="flex-1 items-center"
+      style={{ backgroundColor: Colors.background }}
+    >
+      {/* Content column: full-bleed on phones, centered + capped on iPad */}
+      <View className="flex-1 w-full self-center max-w-[640px]">
       {/* Header with brand mark */}
       <View
         className="absolute left-0 right-0 items-center justify-center"
@@ -289,6 +297,7 @@ export const Onboarding: FC = () => {
             Start Scaring
           </Text>
         </AnimatedPressable>
+      </View>
       </View>
     </View>
   );
