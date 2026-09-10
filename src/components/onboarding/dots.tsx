@@ -12,7 +12,7 @@ interface DotsProps {
 
 export const Dots: FC<DotsProps> = ({ numberOfDots, activeIndex }) => {
   return (
-    <View className="flex-row items-center justify-center gap-1">
+    <View className="flex-row mt-2 items-center justify-center gap-1">
       {Array.from({ length: numberOfDots }, (_, index) => (
         <Dot key={index} index={index} activeIndex={activeIndex} />
       ))}

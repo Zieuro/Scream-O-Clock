@@ -16,7 +16,8 @@ function formatBigTimeLabel(remainingMs: number) {
 }
 
 export function useCountdown() {
-  const { slots, now } = useAppStore();
+  const slots = useAppStore((s) => s.slots);
+  const now = useAppStore((s) => s.now);
 
   return useMemo(() => {
     const slot = getCurrentSlot(slots, now);
@@ -44,7 +45,9 @@ export function useCountdown() {
 }
 
 export function usePreShowCountdown() {
-  const { now, show, slots } = useAppStore();
+  const now = useAppStore((s) => s.now);
+  const show = useAppStore((s) => s.show);
+  const slots = useAppStore((s) => s.slots);
 
   return useMemo(() => {
     const nextSlot = getNextSlot(slots, now);

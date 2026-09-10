@@ -11,7 +11,8 @@ import { getPhase } from "@/domain/slots";
 import { useAppStore } from "@/state/store";
 
 export default function Index() {
-  const { now, show } = useAppStore();
+  const now = useAppStore((s) => s.now);
+  const show = useAppStore((s) => s.show);
   const showType = show ? getPhase(now, show) : null;
 
   function whichShow() {

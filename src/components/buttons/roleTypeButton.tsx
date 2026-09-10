@@ -11,7 +11,10 @@ import { useSettingsStore } from "@/state/settingsStore";
 import { View, Text } from "react-native";
 
 export default function RoleTypeButton() {
-  const { roleType, setRoleType, role, setRole } = useSettingsStore();
+  const roleType = useSettingsStore((s) => s.roleType);
+  const setRoleType = useSettingsStore((s) => s.setRoleType);
+  const role = useSettingsStore((s) => s.role);
+  const setRole = useSettingsStore((s) => s.setRole);
 
   const handleRoleTypeChange = (value: string) => {
     if (value === "standard" || value === "specialty") {

@@ -12,7 +12,8 @@ export default function Show() {
   const { progress, timeLabel } = useCountdown();
   const { slot, nextSlot } = useShow();
 
-  const { role, positionView } = useSettingsStore();
+  const role = useSettingsStore((s) => s.role);
+  const positionView = useSettingsStore((s) => s.positionView);
 
   const row = slot?.row;
   const myPosition = row?.[role];

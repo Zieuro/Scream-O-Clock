@@ -1,6 +1,7 @@
 import notifee, {
   AuthorizationStatus,
   AndroidImportance,
+  AndroidNotificationSetting,
   EventType,
   TriggerType,
 } from "@notifee/react-native";
@@ -107,6 +108,22 @@ export function openNotificationSettings() {
   if (Platform.OS === "android") {
     notifee.openNotificationSettings();
   }
+}
+
+export function openAlarmPermissionSettings() {
+  if (Platform.OS === "android") {
+    notifee.openAlarmPermissionSettings();
+  }
+}
+
+// Android 12+ gates exact alarms behind SCHEDULE_EXACT_ALARM (user-revocable,
+// and revocation deletes all scheduled triggers). NOT_SUPPORTED means the OS
+// predates the permission, where exact alarms are always allowed — so only
+// an explicit DISABLED blocks arming.
+export async function ensureExactAlarmsEnabled(): Promise<boolean> {
+  if (Platform.OS !== "android") return true;
+  const settings = await notifee.getNotificationSettings();
+  return settings.android.alarm !== AndroidNotificationSetting.DISABLED;
 }
 
 // loopSound keeps playing until the notification is cancelled, and ongoing

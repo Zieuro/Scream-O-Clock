@@ -9,5 +9,5 @@ export function useClock() {
       tick(Date.now())
     }, 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [tick])
 }

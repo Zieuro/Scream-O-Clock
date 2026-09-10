@@ -44,6 +44,7 @@
         }
       ],
       "./plugins/withNotifeeMaven",
+      "./plugins/withExactAlarmPermission",
       "./plugins/withSilenceSounds",
       ["@harkenapp/sdk-react-native"],
       "expo-secure-store"

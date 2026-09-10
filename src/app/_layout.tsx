@@ -1,5 +1,5 @@
 import { useLoadShow } from "@/hooks/useLoadShow";
-import { Stack } from "expo-router";
+import { DarkTheme, Stack, ThemeProvider } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { HeroUINativeProvider } from "heroui-native";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,12 +12,36 @@ import { HarkenProvider } from "@harkenapp/sdk-react-native";
 import { registerNotificationEvents } from "@/services/notifications";
 import { useHydrated } from "@/hooks/useHydrated";
 import { useAppStore } from "@/state/store";
+import * as SystemUI from "expo-system-ui";
 
 // Registered at module scope so background events are handled even when the
 // JS bundle is woken solely to deliver them.
 registerNotificationEvents();
 
 SplashScreen.preventAutoHideAsync();
+
+// iOS 26 stack transitions animate screens as rounded cards, leaving gaps
+// where the root view shows through; its default white flashes during
+// push/pop, so it must be dark before the first navigation.
+SystemUI.setBackgroundColorAsync(Colors.background);
+
+// expo-router's NavigationContainer defaults to the light theme and its
+// native stack paints the container behind the sliding screens with
+// theme.colors.background — near-white, above anything the root view is
+// set to — so transitions flash white and the iOS 26 glass back button
+// glows with it. Force it to the app palette.
+const navTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: Colors.primary,
+    background: Colors.background,
+    card: Colors.card,
+    text: Colors.foreground,
+    border: Colors.border,
+    notification: Colors.primary,
+  },
+};
 
 export default function RootLayout() {
   const [fontsLoaded] = useLoadedFonts();
@@ -46,7 +70,12 @@ export default function RootLayout() {
       >
     <GestureHandlerRootView style={{ flex: 1 }}>
       <HeroUINativeProvider config={{ devInfo: { stylingPrinciples: false } }}>
-        <Stack>
+        <ThemeProvider value={navTheme}>
+          <Stack
+            screenOptions={{
+              contentStyle: { backgroundColor: Colors.background },
+            }}
+          >
           <Stack.Screen
             name="index"
             options={{ headerShown: false, animation: "none" }}
@@ -72,7 +101,8 @@ export default function RootLayout() {
               contentStyle: { backgroundColor: Colors.dark },
             }}
           />
-        </Stack>
+          </Stack>
+        </ThemeProvider>
       </HeroUINativeProvider>
       </GestureHandlerRootView>
       </HarkenProvider>

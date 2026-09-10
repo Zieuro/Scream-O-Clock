@@ -4,7 +4,8 @@ import { View, Text } from "react-native";
 import { Colors } from "@/constants/colors";
 
 export default function PositionSwitch() {
-  const { positionView, setPositionView } = useSettingsStore();
+  const positionView = useSettingsStore((s) => s.positionView);
+  const setPositionView = useSettingsStore((s) => s.setPositionView);
 
   return (
     <View className="rounded-3xl flex-row items-center justify-between bg-card mx-2 px-4 py-1.5 outline-1 outline-neutral-800 shadow-lg shadow-neutral-950">

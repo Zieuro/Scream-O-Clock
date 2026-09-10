@@ -46,3 +46,6 @@ example
 
 # macOS
 .DS_Store
+
+# zcode session artifacts
+.zcode/

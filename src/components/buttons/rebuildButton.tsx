@@ -4,7 +4,7 @@ import { useAppStore } from "@/state/store";
 
 function ConfirmActions() {
   const { onOpenChange } = useDialog();
-  const { loadShow } = useAppStore();
+  const loadShow = useAppStore((s) => s.loadShow);
   const today = new Date();
 
   return (

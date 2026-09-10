@@ -9,11 +9,13 @@ import { useShow } from "@/hooks/useShow";
 import Card from "../card";
 
 export default function PreShow() {
-  const { show, now } = useAppStore();
+  const show = useAppStore((s) => s.show);
+  const now = useAppStore((s) => s.now);
   const { progress, timeLabel, preTimeLabel } = usePreShowCountdown();
   const { nextSlot } = useShow();
 
-  const { role, positionView } = useSettingsStore();
+  const role = useSettingsStore((s) => s.role);
+  const positionView = useSettingsStore((s) => s.positionView);
 
   const isAfterCalltime = (show ? now >= show.callTime : null) ? true : false;
 

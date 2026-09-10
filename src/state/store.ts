@@ -9,6 +9,7 @@ import {
   cancelAllNotifications,
   ensureChannel,
   requestPermissions,
+  ensureExactAlarmsEnabled,
 } from "@/services/notifications";
 import { fetchConfig, default_config } from "@/services/config";
 import { fetchRows, fetchSpecialtyRows } from "@/services/assignments";
@@ -16,7 +17,10 @@ import { useSettingsStore } from "./settingsStore";
 
 export type ArmResult =
   | { ok: true; scheduled: number }
-  | { ok: false; reason: "no-slots" | "permission-denied" };
+  | {
+      ok: false;
+      reason: "no-slots" | "permission-denied" | "alarms-disabled";
+    };
 
 interface AppState {
   //state
@@ -49,9 +53,8 @@ export const useAppStore = create<AppState>()(
 
       tick: (now) => set({ now }),
       loadShow: async (date) => {
-        // const config_response = await fetchConfig();
-        // const config = config_response ?? default_config;
-        const config = default_config;
+        const config_response = await fetchConfig();
+        const config = config_response ?? default_config;
         const roleType = useSettingsStore.getState().roleType;
         const rows =
           roleType === "standard"
@@ -90,6 +93,10 @@ export const useAppStore = create<AppState>()(
 
         const granted = await requestPermissions();
         if (!granted) return { ok: false, reason: "permission-denied" };
+
+        if (!(await ensureExactAlarmsEnabled())) {
+          return { ok: false, reason: "alarms-disabled" };
+        }
 
         const scheduled = await scheduleSlotNotifications(slots, now);
         set({ armed: true });

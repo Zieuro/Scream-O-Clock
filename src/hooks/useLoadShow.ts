@@ -3,7 +3,11 @@ import { useSettingsStore } from "@/state/settingsStore";
 import { useEffect, useRef } from "react";
 
 export function useLoadShow() {
-  const { loadShow, now, show, showBuiltFor, hydrated } = useAppStore();
+  const loadShow = useAppStore((s) => s.loadShow);
+  const now = useAppStore((s) => s.now);
+  const show = useAppStore((s) => s.show);
+  const showBuiltFor = useAppStore((s) => s.showBuiltFor);
+  const hydrated = useAppStore((s) => s.hydrated);
   const roleType = useSettingsStore((s) => s.roleType);
   const prevRoleType = useRef(roleType)
 

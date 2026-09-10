@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { Season_Config } from "@/domain/types";
 
 export const supabase = createClient(
   "https://ymuctryiomhqwvojqtgg.supabase.co",

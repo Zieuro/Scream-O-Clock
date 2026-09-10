@@ -18,19 +18,12 @@ export async function fetchConfig(): Promise<Season_Config | null> {
 
 export const default_config: Season_Config = {
   8: {
-    // Testing August
-    days: [1, 2, 3, 4, 5, 6, 0],
+    // September (getMonth() is 0-indexed)
+    days: [5, 6], // Friday, Saturday
     callHour: 18,
     startHour: 19,
-    endHours: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 1, 0: 0 },
+    endHours: { 5: 0, 6: 0 }, // Friday → 12:00, Saturday → 12:00
   },
-  // 8: {
-  //   // September (getMonth() is 0-indexed)
-  //   days: [5, 6], // Friday, Saturday
-  //   callHour: 18,
-  //   startHour: 19,
-  //   endHours: { 5: 0, 6: 1 }, // Friday → 01:00, Saturday → 01:00
-  // },
   9: {
     // October
     days: [4, 5, 6, 0], // Thursday through Sunday
