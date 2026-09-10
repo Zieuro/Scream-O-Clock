@@ -10,6 +10,11 @@ import { Colors } from "@/constants/colors";
 import { harkenDarkTheme } from "@/constants/harken";
 import { useClock } from "@/hooks/useClock";
 import { HarkenProvider } from "@harkenapp/sdk-react-native";
+import { registerNotificationEvents } from "@/services/notifications";
+
+// Registered at module scope so background events are handled even when the
+// JS bundle is woken solely to deliver them.
+registerNotificationEvents();
 
 SplashScreen.preventAutoHideAsync();
 

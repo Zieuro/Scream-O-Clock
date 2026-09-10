@@ -11,8 +11,8 @@
       "icon": "./assets/images/app-icon.png",
       "bundleIdentifier": "com.zieuro.screamoclock",
       "infoPlist": {
-          "NSAlarmKitUsageDescription": "Scream O' Clock schedules alarms for your rotation times."
-        }
+        "NSAlarmKitUsageDescription": "Scream O' Clock schedules alarms for your rotation times."
+      }
     },
     "android": {
       "package": "com.zieuro.scream_o_clock",
@@ -37,12 +37,13 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
+          "backgroundColor": "#121212",
+          "image": "./assets/images/app-icon.png",
           "imageWidth": 76
         }
       ],
       "./plugins/withNotifeeMaven",
+      "./plugins/withSilenceSounds",
       ["@harkenapp/sdk-react-native"],
       "expo-secure-store"
     ],
