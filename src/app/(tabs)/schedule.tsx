@@ -53,7 +53,7 @@ export default function Schedule() {
       {/* Page View */}
       <Screen className="p-safe mx-2 flex-1">
         {/* Schedule View */}
-        <View className="flex-1 border-3 border-card rounded-2xl overflow-y-hidden">
+        <View className="flex-1 border-3 border-card rounded-2xl mx-4 overflow-y-hidden">
           {/* Header View */}
           <View className="flex-row gap-4 bg-card rounded-t-xl p-2 items-center">
             <View className="w-[30%] items-center">

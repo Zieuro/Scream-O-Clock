@@ -4,7 +4,6 @@ import LabelFormatSwitch from "@/components/buttons/formatSwitch";
 import RoleTypeButton from "@/components/buttons/roleTypeButton";
 import PositionSwitch from "@/components/buttons/positionSwitch";
 import { Separator } from "heroui-native";
-import DonateButton from "@/components/buttons/donateButton";
 import FeedbackButton from "@/components/buttons/feedbackButton";
 import RebuildButton from "@/components/buttons/rebuildButton";
 import Screen from "@/components/screen";
@@ -34,10 +33,7 @@ export default function Schedule() {
       </View>
 
       <View className="gap-5 flex-col my-3">
-        <View className="gap-5 flex-row">
-          <DonateButton />
-          <FeedbackButton />
-        </View>
+        <FeedbackButton />
         <RebuildButton />
       </View>
     </Screen>
