@@ -1,6 +1,23 @@
 import { Role, Season_Config, Show } from "./types";
 import { useSettingsStore } from "@/state/settingsStore";
 
+// The show that should currently be displayed: during the after-midnight
+// window (< 3 AM) yesterday's show takes priority while it is still within
+// its clear window; once cleared, today's show takes over.
+export function buildActiveShow(
+  date: Date,
+  config: Season_Config,
+  role: Role,
+): Show | null {
+  const yesterday = new Date(date);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayShow =
+    date.getHours() < 3 ? buildTodaysShow(yesterday, config, role) : null;
+  return yesterdayShow && yesterdayShow.clearTime > date.getTime()
+    ? yesterdayShow
+    : buildTodaysShow(date, config, role);
+}
+
 export function buildTodaysShow(
   date: Date,
   config: Season_Config,

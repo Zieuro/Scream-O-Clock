@@ -22,13 +22,13 @@ export const default_config: Season_Config = {
     days: [5, 6], // Friday, Saturday
     callHour: 18,
     startHour: 19,
-    endHours: { 5: 0, 6: 0 }, // Friday → 12:00, Saturday → 12:00
+    endHours: { 5: 1, 6: 1 }, // Friday → 1:00, Saturday → 1:00
   },
   9: {
     // October
     days: [4, 5, 6, 0], // Thursday through Sunday
     callHour: 18,
     startHour: 19,
-    endHours: { 4: 0, 5: 1, 6: 1, 0: 0 }, // Thur→midnight, Fri→01:00, Sat→01:00, Sun→midnight
+    endHours: { 4: 0, 5: 1, 6: 1, 0: 0 }, // Thur → 12:00, Fri → 01:00, Sat → 01:00, Sun → 12:00
   },
 };

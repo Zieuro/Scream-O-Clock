@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Show, Slot } from "@/domain/types";
 import { buildSlots } from "@/domain/slots";
-import { buildTodaysShow } from "@/domain/show";
+import { buildActiveShow } from "@/domain/show";
 import {
   scheduleSlotNotifications,
   cancelAllNotifications,
@@ -66,14 +66,7 @@ export const useAppStore = create<AppState>()(
           this will manually create yesterday's show. After yesterday's
           clearTime (e.g. 2am), it rolls forward to today's show instead,
           otherwise the <3am window would show No Show until 3am. */
-        const yesterday = new Date(date);
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayShow =
-          date.getHours() < 3 ? buildTodaysShow(yesterday, config, role) : null;
-        const show =
-          yesterdayShow && yesterdayShow.clearTime > date.getTime()
-            ? yesterdayShow
-            : buildTodaysShow(date, config, role);
+        const show = buildActiveShow(date, config, role);
         
         /* no-show days keep the previously built show
           getPhase still returns null past clear time */

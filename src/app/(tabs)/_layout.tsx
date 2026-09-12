@@ -1,12 +1,14 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { Colors } from "@/constants/colors";
 import { useSplashReveal } from "@/hooks/useSplashReveal";
+import ScheduleUpdateDialog from "@/components/scheduleUpdateDialog";
 
 export default function TabsLayout() {
   useSplashReveal();
 
   return (
-    <NativeTabs
+    <>
+      <NativeTabs
       backgroundColor={Colors.background}
       indicatorColor={Colors.primary}
       tintColor={Colors.foreground}
@@ -31,5 +33,7 @@ export default function TabsLayout() {
         <NativeTabs.Trigger.Icon sf="calendar" md="calendar_clock" />
       </NativeTabs.Trigger>
     </NativeTabs>
+    <ScheduleUpdateDialog />
+    </>
   );
 }

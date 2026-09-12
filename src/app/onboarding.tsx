@@ -159,7 +159,7 @@ export const Onboarding: FC = () => {
       style={{ backgroundColor: Colors.background }}
     >
       {/* Content column: full-bleed on phones, centered + capped on iPad */}
-      <View className="flex-1 w-full self-center max-w-[640px]">
+      <View className="flex-1 w-full self-center max-w-160">
       {/* Header with brand mark */}
       <View
         className="absolute left-0 right-0 items-center justify-center"

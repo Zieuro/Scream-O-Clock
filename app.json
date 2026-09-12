@@ -10,7 +10,7 @@
     "ios": {
       "icon": "./assets/images/app-icon.png",
       "bundleIdentifier": "com.zieuro.screamoclock",
-      "supportsTablet": true,
+      "supportsTablet": false,
       "infoPlist": {
         "NSAlarmKitUsageDescription": "Scream O' Clock schedules alarms for your rotation times.",
         "ITSAppUsesNonExemptEncryption": false
