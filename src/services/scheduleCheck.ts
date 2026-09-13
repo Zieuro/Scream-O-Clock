@@ -47,8 +47,13 @@ export async function checkForScheduleUpdates(): Promise<boolean> {
   if (rows === null) return false;
 
   const candidate = buildActiveShow(new Date(), config, role);
+  // A null candidate means the schedule currently has no show (a no-show
+  // day). The app intentionally keeps the last built show in that case, so
+  // there is nothing to update — treating it as a change would re-prompt
+  // on every launch of a no-show day.
+  if (candidate === null) return false;
   if (!showsEqual(show ?? null, candidate)) return true;
 
-  const candidateSlots = candidate ? buildSlots(candidate, rows) : [];
+  const candidateSlots = buildSlots(candidate, rows);
   return !slotsEqual(slots, candidateSlots);
 }
