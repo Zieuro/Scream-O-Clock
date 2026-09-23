@@ -6,9 +6,11 @@ import { Colors } from "@/constants/colors";
 import { getLabel } from "@/constants/format";
 import { usePreShowCountdown } from "@/hooks/useCountdown";
 import { useShow } from "@/hooks/useShow";
+import { useUiScale } from "@/hooks/useUiScale";
 import Card from "../card";
 
 export default function PreShow() {
+  const s = useUiScale();
   const show = useAppStore((s) => s.show);
   const now = useAppStore((s) => s.now);
   const { progress, timeLabel, preTimeLabel } = usePreShowCountdown();
@@ -30,8 +32,14 @@ export default function PreShow() {
 
   return (
     <>
-      <View className="mx-5 px-5 gap-4 flex-col items-center">
-        <Text className="font-cinzel-bold text-center text-4xl text-muted">
+      <View
+        className="mx-5 px-5 flex-col items-center"
+        style={{ gap: Math.round(16 * s) }}
+      >
+        <Text
+          className="font-cinzel-bold text-center text-muted"
+          style={{ fontSize: Math.round(34 * s) }}
+        >
           {isAfterCalltime ? "Show starts in:" : "Be at\nvenue in:"}
         </Text>
       </View>
@@ -55,17 +63,25 @@ export default function PreShow() {
         )}
       </CountdownRing>
 
-      {isAfterCalltime && <View className="mb-5">
-        <Card>
-          <Text className="font-cinzel-medium self-start text-2xl text-muted">
-            Start:
-          </Text>
+      {isAfterCalltime && (
+        <View style={{ marginBottom: Math.round(20 * s) }}>
+          <Card scale={s}>
+            <Text
+              className="font-cinzel-medium self-start text-muted"
+              style={{ fontSize: Math.round(24 * s) }}
+            >
+              Start:
+            </Text>
 
-          <Text className="self-center text-3xl font-cinzel-semibold text-muted">
-            {nextPosLabel}
-          </Text>
-        </Card>
-      </View>}
+            <Text
+              className="self-center font-cinzel-semibold text-muted"
+              style={{ fontSize: Math.round(30 * s) }}
+            >
+              {nextPosLabel}
+            </Text>
+          </Card>
+        </View>
+      )}
     </>
   );
 }

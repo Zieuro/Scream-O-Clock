@@ -6,9 +6,11 @@ import { Colors } from "@/constants/colors";
 import { getLabel } from "@/constants/format";
 import { useCountdown } from "@/hooks/useCountdown";
 import { useShow } from "@/hooks/useShow";
+import { useUiScale } from "@/hooks/useUiScale";
 import Card from "../card";
 
 export default function Show() {
+  const s = useUiScale();
   const { progress, timeLabel } = useCountdown();
   const { slot, nextSlot } = useShow();
 
@@ -31,14 +33,23 @@ export default function Show() {
 
   return (
     <>
-      <View className="mx-5 px-5 gap-4 flex-col">
-        <Text className="font-cinzel-bold self-center text-4xl text-muted">
+      <View
+        className="mx-5 px-5 flex-col"
+        style={{ gap: Math.round(16 * s) }}
+      >
+        <Text
+          className="font-cinzel-bold self-center text-muted"
+          style={{ fontSize: Math.round(34 * s) }}
+        >
           Right Now
         </Text>
 
         <Separator className="mx-8" thickness={1} />
 
-        <Text className="self-center text-4xl font-cinzel-semibold text-primary">
+        <Text
+          className="self-center font-cinzel-semibold text-primary"
+          style={{ fontSize: Math.round(34 * s) }}
+        >
           {posLabel}
         </Text>
       </View>
@@ -61,13 +72,19 @@ export default function Show() {
         )}
       </CountdownRing>
 
-      <View className="mb-5">
-        <Card>
-          <Text className="font-cinzel-medium self-start text-2xl text-muted">
+      <View style={{ marginBottom: Math.round(20 * s) }}>
+        <Card scale={s}>
+          <Text
+            className="font-cinzel-medium self-start text-muted"
+            style={{ fontSize: Math.round(24 * s) }}
+          >
             Next:
           </Text>
 
-          <Text className="self-center text-3xl font-cinzel-semibold text-muted">
+          <Text
+            className="self-center font-cinzel-semibold text-muted"
+            style={{ fontSize: Math.round(30 * s) }}
+          >
             {nextPosLabel}
           </Text>
         </Card>
