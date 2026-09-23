@@ -1,7 +1,9 @@
 import { useLoadShow } from "@/hooks/useLoadShow";
+import { useAlarmRinging } from "@/hooks/useAlarmRinging";
 import { DarkTheme, Stack, ThemeProvider } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { HeroUINativeProvider } from "heroui-native";
+import { Uniwind } from "uniwind";
 import * as SplashScreen from "expo-splash-screen";
 import { useLoadedFonts } from "@/constants/fonts";
 import "../../global.css";
@@ -24,6 +26,12 @@ SplashScreen.preventAutoHideAsync();
 // where the root view shows through; its default white flashes during
 // push/pop, so it must be dark before the first navigation.
 SystemUI.setBackgroundColorAsync(Colors.background);
+
+// heroui-native styles through uniwind, which defaults to "system" mode and
+// follows the device appearance toggle. The app is dark-only by design, so
+// pin it — otherwise dialogs and toasts render with light styling on
+// light-mode devices.
+Uniwind.setTheme("dark");
 
 // expo-router's NavigationContainer defaults to the light theme and its
 // native stack paints the container behind the sliding screens with
@@ -51,6 +59,7 @@ export default function RootLayout() {
 
   useLoadShow();
   useClock();
+  useAlarmRinging();
 
   // Nothing renders — the splash stays up — until fonts and both persisted
   // stores are ready. The splash itself is revealed by the destination
@@ -87,6 +96,15 @@ export default function RootLayout() {
           <Stack.Screen
             name="onboarding"
             options={{ headerShown: false, animation: "none" }}
+          />
+          <Stack.Screen
+            name="alarm"
+            options={{
+              headerShown: false,
+              // An alarm must be stopped, not swiped away.
+              gestureEnabled: false,
+              animation: "fade",
+            }}
           />
           <Stack.Screen
             name="settings"

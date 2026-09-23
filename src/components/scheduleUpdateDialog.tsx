@@ -52,25 +52,45 @@ export default function ScheduleUpdateDialog() {
     }
   }, []);
 
+  // Realtime channels are session-scoped and created exactly once per topic.
+  // The supabase client is a module singleton that survives Fast Refresh and
+  // reconnects, and supabase.channel() dedupes by topic — it returns the
+  // already-subscribed instance, and re-adding `postgres_changes` callbacks
+  // to it throws. So the source of truth for "already wired" is the client's
+  // channel list, not a ref.
+  const channelsRef = useRef<ReturnType<typeof supabase.channel>[]>([]);
+
   useEffect(() => {
     void run();
     const foreground = AppState.addEventListener("change", (state) => {
       if (state === "active") void run();
     });
-    const channels = SCHEDULE_TABLES.map((table) =>
-      supabase
-        .channel(`schedule-updates-${table}`)
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table },
-          () => void run()
-        )
-        .subscribe()
+
+    const missing = SCHEDULE_TABLES.filter(
+      (table) =>
+        !supabase
+          .getChannels()
+          .some(
+            (channel) => channel.topic === `realtime:schedule-updates-${table}`,
+          ),
     );
-    return () => {
-      foreground.remove();
-      channels.forEach((channel) => supabase.removeChannel(channel));
-    };
+    channelsRef.current.push(
+      ...missing.map((table) =>
+        supabase
+          .channel(`schedule-updates-${table}`)
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table },
+            () => void run()
+          )
+          .subscribe()
+      ),
+    );
+
+    // Channels intentionally stay alive for the whole session — the dialog
+    // lives at the tabs root, so tearing them down has nothing to gain and
+    // re-creating them risks the subscribe race above.
+    return () => foreground.remove();
   }, [run]);
 
   // Re-check when loadShow completes (showBuiltFor flips to today's date).

@@ -78,7 +78,9 @@ export async function scheduleSlotAlarms(
         },
       },
       tintColor: Colors.primary,
-      soundName: "silence.mp3",
+      // No custom soundName: AlarmKit plays its default alert sound. A
+      // bundled custom asset (silence.mp3) crashed the iOS simulator's
+      // SpringBoard in ToneLibrary while playing the alert.
     };
     await AlarmKitManager.shared.scheduleOrReschedule(
       slotIdToUUID(slot.id),

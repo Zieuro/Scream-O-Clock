@@ -4,6 +4,8 @@ import notifee, {
   AndroidNotificationSetting,
   EventType,
   TriggerType,
+  AlarmType,
+  AndroidCategory,
 } from "@notifee/react-native";
 import { Platform } from "react-native";
 import { Slot } from "@/domain/types";
@@ -14,23 +16,27 @@ import {
   scheduleSlotAlarms,
   cancelAllSlotAlarms,
 } from "@/services/alarmkit";
-import { getRandom } from "@/constants/format";
 
 // Channel settings (sound, vibration) are immutable once a channel is created,
 // so changes to them require a new channel id. Older channels are deleted on
 // init to keep device channel lists clean.
-const CHANNEL_ID = "scream-channel-v3";
-const LEGACY_CHANNEL_IDS = ["scream-channel", "scream-channel-v2"];
+const CHANNEL_ID = "scream-channel-v4";
+const LEGACY_CHANNEL_IDS = [
+  "scream-channel",
+  "scream-channel-v2",
+  "scream-channel-v3",
+];
 
 // Channel vibration patterns play once through rather than looping, so make
 // the pattern long enough to outlast the looped notification sound.
-const VIBRATION_PATTERN = Array.from({ length: 600 }, () => [250, 250]).flat();
+export const VIBRATION_PATTERN = Array.from({ length: 600 }, () => [250, 250]).flat();
 
 export async function ensureChannel() {
   await notifee.createChannel({
     id: CHANNEL_ID,
     name: "Scream Alarms",
     importance: AndroidImportance.HIGH,
+    bypassDnd: true,
     vibration: true,
     vibrationPattern: VIBRATION_PATTERN,
   });
@@ -50,23 +56,19 @@ export async function scheduleSlotNotifications(
   const futureSlots = getFutureSlots(slots, now);
   let scheduled = 0;
 
-  const bodies = [
-    "It is time to rotate",
-    "Drink some water!",
-    "You got this! Keep scaring!",
-  ] as const;
-  const body = getRandom(bodies);
-
   for (const slot of futureSlots) {
     await notifee.createTriggerNotification(
       {
         id: slot.id,
         title: "ROTATE",
-        body: body,
+        body: "It is time to rotate",
         android: {
           channelId: CHANNEL_ID,
+          category: AndroidCategory.ALARM,
           loopSound: true,
           ongoing: true,
+          pressAction: { id: "default", launchActivity: "default" },
+          fullScreenAction: { id: "default", launchActivity: "default" },
           actions: [{ title: "Stop", pressAction: { id: "stop-alarm" } }],
         },
         ios: {
@@ -77,7 +79,12 @@ export async function scheduleSlotNotifications(
       {
         type: TriggerType.TIMESTAMP,
         timestamp: slot.start,
-        alarmManager: true,
+        // alarmManager: true maps to plain setExact(), which Doze defers to
+        // maintenance windows — alarms arrive minutes-to-hours late. SET_ALARM
+        // _CLOCK is AlarmManager.setAlarmClock, the API real clock apps use:
+        // it fires on time in Doze and shows the app's next alarm in system
+        // alarm indicators.
+        alarmManager: { type: AlarmType.SET_ALARM_CLOCK },
       },
     );
     scheduled++;
@@ -113,6 +120,21 @@ export function openNotificationSettings() {
 export function openAlarmPermissionSettings() {
   if (Platform.OS === "android") {
     notifee.openAlarmPermissionSettings();
+  }
+}
+
+// Samsung/Xiaomi-style battery managers kill background apps — and with them
+// the manifest receiver that delivers trigger notifications. activity is null
+// on devices (and stock Android) without such a manager.
+export async function hasOemPowerManager(): Promise<boolean> {
+  if (Platform.OS !== "android") return false;
+  const info = await notifee.getPowerManagerInfo();
+  return info.activity != null;
+}
+
+export function openPowerManagerSettings() {
+  if (Platform.OS === "android") {
+    notifee.openPowerManagerSettings();
   }
 }
 

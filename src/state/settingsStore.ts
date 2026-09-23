@@ -10,6 +10,7 @@ interface SettingState {
   roleType: RoleType;
   role: Role;
   numFormat: boolean;
+  showOnLockScreen: boolean;
 
   //actions
   setHasOnboarded: (hasOnboarded: boolean) => void;
@@ -17,6 +18,7 @@ interface SettingState {
   setRoleType: (roleType: RoleType) => void;
   setRole: (role: Role) => void;
   setNumFormat: (numFormat: boolean) => void;
+  setShowOnLockScreen: (showOnLockScreen: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingState>()(
@@ -27,12 +29,14 @@ export const useSettingsStore = create<SettingState>()(
       roleType: "standard",
       role: "a",
       numFormat: false,
+      showOnLockScreen: true, // App visible over the lock screen when woken
 
       setHasOnboarded: (hasOnboarded) => set({ hasOnboarded }),
-      setPositionView: (positionView) => set({ positionView }), // Action to toggle, shows by 
+      setPositionView: (positionView) => set({ positionView }), // Action to toggle, shows by
       setRoleType: (roleType) => set({ roleType }),
       setRole: (role) => set({ role }),
       setNumFormat: (numFormat) => set({ numFormat }),
+      setShowOnLockScreen: (showOnLockScreen) => set({ showOnLockScreen }),
     }),
     {
       name: "scream-o-clock-settings",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { View, Text } from "react-native";
 import { Alert, Button, Dialog, useToast } from "heroui-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -6,6 +6,7 @@ import { useAppStore } from "@/state/store";
 import {
   openAlarmPermissionSettings,
   openNotificationSettings,
+  openPowerManagerSettings,
 } from "@/services/notifications";
 import { Colors } from "@/constants/colors";
 
@@ -15,6 +16,7 @@ export default function ArmButton() {
   const disarm = useAppStore((s) => s.disarm);
   const { toast } = useToast();
   const [alarmsBlocked, setAlarmsBlocked] = useState(false);
+  const batteryWarned = useRef(false);
 
   const handlePress = async () => {
     if (armed) {
@@ -41,6 +43,20 @@ export default function ArmButton() {
             variant: "warning",
             label: "Armed",
             description: "No upcoming slots to schedule reminders for",
+          });
+        }
+        if (result.powerManager && !batteryWarned.current) {
+          batteryWarned.current = true;
+          toast.show({
+            variant: "warning",
+            label: "Battery restriction detected",
+            description:
+              "Your phone may kill scheduled alarms in the background. Allow Scream O' Clock to run unrestricted in battery settings.",
+            actionLabel: "Settings",
+            onActionPress: ({ hide }) => {
+              openPowerManagerSettings();
+              hide();
+            },
           });
         }
       } else if (result.reason === "no-slots") {

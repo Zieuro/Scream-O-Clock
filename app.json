@@ -2,7 +2,7 @@
   "expo": {
     "name": "Scream O' Clock",
     "slug": "Scream-O-Clock",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon.png",
     "scheme": "screamoclock",
@@ -27,7 +27,8 @@
       "permissions": [
         "android.permission.POST_NOTIFICATIONS",
         "android.permission.USE_EXACT_ALARM",
-        "android.permission.RECEIVE_BOOT_COMPLETED"
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.USE_FULL_SCREEN_INTENT"
       ]
     },
     "web": {
@@ -46,6 +47,7 @@
       ],
       "./plugins/withNotifeeMaven",
       "./plugins/withExactAlarmPermission",
+      "./plugins/withAlarmScreenUnlock",
       "./plugins/withSilenceSounds",
       ["@harkenapp/sdk-react-native"],
       "expo-secure-store"

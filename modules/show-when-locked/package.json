@@ -1,0 +1,5 @@
+{
+  "name": "show-when-locked",
+  "version": "1.0.0",
+  "description": "Runtime control over showing the app over the Android lock screen"
+}

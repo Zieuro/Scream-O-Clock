@@ -73,8 +73,13 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
-        "exclude": ["@notifee/react-native"]
+        "exclude": [
+          "@notifee/react-native"
+        ]
       }
+    },
+    "autolinking": {
+      "nativeModulesDir": "./modules"
     }
   }
 }
