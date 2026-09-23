@@ -48,9 +48,16 @@
       "./plugins/withNotifeeMaven",
       "./plugins/withExactAlarmPermission",
       "./plugins/withAlarmScreenUnlock",
+      "./plugins/withPermissionsCleanup",
       "./plugins/withSilenceSounds",
-      ["@harkenapp/sdk-react-native"],
-      "expo-secure-store"
+      [
+        "@harkenapp/sdk-react-native"
+      ],
+      "expo-secure-store",
+      "expo-build-properties",
+      "expo-font",
+      "expo-image",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
