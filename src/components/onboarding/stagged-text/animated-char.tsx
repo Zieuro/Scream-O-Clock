@@ -14,12 +14,21 @@ import { Colors } from "@/constants/colors";
 
 type Props = {
   char: string; // Individual character to animate
+  fontSize: number; // Rendered font size, scaled by the caller to the screen
+  lineHeight: number; // Matches fontSize so containers can compute heights
   index: number; // Character position in text for stagger timing calculation
   totalCount: number; // Total character count for dynamic animation scaling
   progress: SharedValue<number>; // Global animation trigger (0-1)
 };
 
-export const AnimatedChar: FC<Props> = ({ index, char, progress, totalCount }) => {
+export const AnimatedChar: FC<Props> = ({
+  index,
+  char,
+  fontSize,
+  lineHeight,
+  progress,
+  totalCount,
+}) => {
   // Individual character animation progress with staggered timing
   const charProgress = useDerivedValue(() => {
     const delayMs = index * 10; // 10ms delay per character for cascade effect
@@ -60,7 +69,10 @@ export const AnimatedChar: FC<Props> = ({ index, char, progress, totalCount }) =
 
   return (
     <Animated.View style={rContainerStyle}>
-      <Text className="text-3xl font-semibold" style={{ color: Colors.foreground }}>
+      <Text
+        className="font-semibold"
+        style={{ color: Colors.foreground, fontSize, lineHeight }}
+      >
         {char}
       </Text>
     </Animated.View>

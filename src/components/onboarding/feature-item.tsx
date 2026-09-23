@@ -1,5 +1,10 @@
 import React, { FC } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  LayoutChangeEvent,
+} from "react-native";
 import Animated, {
   SharedValue,
   useAnimatedReaction,
@@ -30,9 +35,11 @@ type Props = {
   itemIndex: number; // This item's position in carousel for state comparison
   activeIndex: SharedValue<number>; // Current active carousel item
   prevIndex: SharedValue<number>; // Previous active item for transition direction
+  scale?: number; // Multiplier derived from screen size; 1 matches the 390px baseline
+  onLayout?: (event: LayoutChangeEvent) => void; // Lets the parent measure this item
 };
 
-export const FeatureItem: FC<Props> = ({ label, itemIndex, activeIndex, prevIndex }) => {
+export const FeatureItem: FC<Props> = ({ label, itemIndex, activeIndex, prevIndex, scale: sizeScale = 1, onLayout }) => {
   // Individual animation shared values for this feature item
   const opacity = useSharedValue(INITIAL_OPACITY); // Controls visibility fade
   const translateY = useSharedValue(-TRANSLATE_DISTANCE); // Vertical position for slide animations
@@ -123,10 +130,24 @@ export const FeatureItem: FC<Props> = ({ label, itemIndex, activeIndex, prevInde
   });
 
   return (
-    <Animated.View className="absolute p-4" style={rContainerStyle}>
+    <Animated.View
+      className="absolute"
+      onLayout={onLayout}
+      style={[rContainerStyle, { padding: Math.round(16 * sizeScale) }]}
+    >
       {/* Main feature card with rounded corners and shadow */}
-      <View className="px-3 py-2 rounded-[14px]" style={[styles.container, { backgroundColor: Colors.card }]}>
-        <Text className="text-base" style={{ color: Colors.foreground }}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: Colors.card,
+            borderRadius: Math.round(14 * sizeScale),
+            paddingHorizontal: Math.round(12 * sizeScale),
+            paddingVertical: Math.round(8 * sizeScale),
+          },
+        ]}
+      >
+        <Text style={{ color: Colors.foreground, fontSize: Math.round(16 * sizeScale) }}>
           {label}
         </Text>
       </View>

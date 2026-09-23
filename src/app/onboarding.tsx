@@ -1,13 +1,13 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { FC } from "react";
+import { FC, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
   Text,
   Pressable,
   useWindowDimensions,
-  Platform,
+  LayoutChangeEvent,
 } from "react-native";
 import Animated, {
   Extrapolation,
@@ -76,13 +76,65 @@ const SLIDES = [
 
 const LAST_SLIDE_INDEX = SLIDES.length - 1;
 
+// Headline shown for each carousel index — HEADLINES[i] displays on slide i
+const HEADLINES = [
+  "Welcome to\nScream O'Clock",
+  "Stay on time...",
+  "Rotations made easy...",
+  "Options for Everyone!",
+  "Just in case...",
+  "Made by Humans",
+  "Ready to\nFEED THE FEAR?",
+];
+
 export const Onboarding: FC = () => {
   useSplashReveal();
   const insets = useSafeAreaInsets();
-  const { width: windowWidth } = useWindowDimensions();
-  // Cap the carousel to the content column on large screens (iPad) so
-  // slides stay phone-proportioned and the snap math stays consistent.
-  const width = Math.min(windowWidth, 640);
+  const { width, height } = useWindowDimensions();
+
+  // Responsive scale: every size on this screen derives from the real window
+  // size against a 390x844 phone baseline, clamped so small phones and
+  // tablets stay in a tasteful range
+  const scale = Math.min(
+    Math.max(Math.min(width / 390, height / 844), 0.85),
+    1.3,
+  );
+  const S = (size: number) => Math.round(size * scale); // Scales a baseline value
+  // Typography never shrinks below its baseline (small phones keep readable
+  // text) and only grows on larger screens
+  const textScale = Math.min(Math.max(scale, 1), 1.3);
+  const headerHeight = S(HEADER_HEIGHT);
+  const headlineFontSize = Math.round(30 * textScale);
+  const headlineLineHeight = Math.round(headlineFontSize * 1.25);
+  // Tallest headline wraps to two lines; fixed stack height keeps the panel stable
+  const headlineStackHeight = headlineLineHeight * 2;
+
+  // The headline and description stacks hold absolutely-positioned children,
+  // so their height is tracked from onLayout measurements of the content —
+  // this keeps the panel spacing natural on every screen size
+  const headlineHeights = useRef<Record<number, number>>({});
+  const [headlineHeight, setHeadlineHeight] = useState(headlineStackHeight);
+  const handleHeadlineLayout =
+    (index: number) => (event: LayoutChangeEvent) => {
+      const measured = Math.ceil(event.nativeEvent.layout.height);
+      if (headlineHeights.current[index] !== measured) {
+        headlineHeights.current[index] = measured;
+        setHeadlineHeight(Math.max(...Object.values(headlineHeights.current)));
+      }
+    };
+
+  const descriptionHeights = useRef<Record<number, number>>({});
+  const [descriptionHeight, setDescriptionHeight] = useState(S(56));
+  const handleDescriptionLayout =
+    (index: number) => (event: LayoutChangeEvent) => {
+      const measured = Math.ceil(event.nativeEvent.layout.height);
+      if (descriptionHeights.current[index] !== measured) {
+        descriptionHeights.current[index] = measured;
+        setDescriptionHeight(
+          Math.max(...Object.values(descriptionHeights.current)),
+        );
+      }
+    };
 
   // Scroll tracking shared values for coordinated animations across components
   const prevOffsetX = useSharedValue(0); // Previous scroll position for direction detection
@@ -148,6 +200,18 @@ export const Onboarding: FC = () => {
     };
   });
 
+  // The pagination dots fade out across that same transition, replaced by the CTA
+  const rDotsStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        activeIndex.get(),
+        [LAST_SLIDE_INDEX - 1, LAST_SLIDE_INDEX],
+        [1, 0],
+        Extrapolation.CLAMP,
+      ),
+    };
+  });
+
   const startScaring = () => {
     useSettingsStore.getState().setHasOnboarded(true);
     router.replace("/(tabs)");
@@ -163,7 +227,7 @@ export const Onboarding: FC = () => {
       {/* Header with brand mark */}
       <View
         className="absolute left-0 right-0 items-center justify-center"
-        style={{ height: HEADER_HEIGHT, top: insets.top + 8 }}
+        style={{ height: headerHeight, top: insets.top + S(8) }}
       ></View>
       {/* Carousel: width-locked slides, one per page */}
       <Animated.FlatList
@@ -175,22 +239,23 @@ export const Onboarding: FC = () => {
           >
             {/* Slide placeholder card — swap for real page content */}
             <View
-              className="w-3/4 h-full rounded-[40px] overflow-hidden items-center border-card border-2"
-              style={[styles.borderCurve, { backgroundColor: Colors.card }]}
+              className="w-3/4 h-full overflow-hidden items-center border-card border-2"
+              style={[
+                styles.borderCurve,
+                { backgroundColor: Colors.card, borderRadius: S(40) },
+              ]}
             >
               <Image
                 source={item.image}
                 contentFit="cover"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: Platform.OS === "ios" ? "" : 24,
-                }}
+                style={{ width: "100%", height: "100%" }}
               />
             </View>
           </View>
         )}
-        contentContainerStyle={{ paddingTop: insets.top + HEADER_HEIGHT + 28 }}
+        contentContainerStyle={{
+          paddingTop: insets.top + headerHeight + S(28),
+        }}
         horizontal
         pagingEnabled // Enables snap-to-page behavior for carousel
         showsHorizontalScrollIndicator={false}
@@ -202,10 +267,12 @@ export const Onboarding: FC = () => {
           pushes the description, dots, and CTA down on larger phones and
           collapses to zero on smaller ones. */}
       <View
-        className="absolute bottom-0 left-0 right-0 px-8 pt-6 gap-6"
+        className="absolute bottom-0 left-0 right-0"
         style={{
           minHeight: "30%",
-          paddingBottom: insets.bottom + 8,
+          paddingHorizontal: S(32),
+          paddingTop: S(24),
+          paddingBottom: insets.bottom + S(8),
           backgroundColor: Colors.background,
         }}
       >
@@ -214,89 +281,84 @@ export const Onboarding: FC = () => {
           colors={["rgba(18,18,18,0)", Colors.background]} // 0% to 100% opacity fade
           style={styles.gradient}
         />
-        {/* Overlapping text animations - only one visible per carousel state */}
-        <View className="h-8 w-full items-center justify-center">
-          <View className="absolute">
-            <StaggeredText
-              text={"Welcome to\nScream O' Clock"}
-              activeIndex={activeIndex}
-              showIndex={[0]}
-            />
-          </View>
-          <View className="absolute">
-            <StaggeredText
-              text="Stay on time..."
-              activeIndex={activeIndex}
-              showIndex={[1]}
-            />
-          </View>
-          <View className="absolute">
-            <StaggeredText
-              text="Rotations made easy..."
-              activeIndex={activeIndex}
-              showIndex={[2]}
-            />
-          </View>
-          <View className="absolute">
-            <StaggeredText
-              text="Options for Everyone!"
-              activeIndex={activeIndex}
-              showIndex={[3]}
-            />
-          </View>
-          <View className="absolute mb-10">
-            <StaggeredText
-              text={"Just in case..."}
-              activeIndex={activeIndex}
-              showIndex={[4]}
-            />
-          </View>
-          <View className="absolute">
-            <StaggeredText
-              text={"Made by Humans"}
-              activeIndex={activeIndex}
-              showIndex={[5]}
-            />
-          </View>
-          <View className="absolute">
-            <StaggeredText
-              text={"Ready to\nFEED THE FEAR?"}
-              activeIndex={activeIndex}
-              showIndex={[6]}
-            />
-          </View>
+        {/* Overlapping text animations - only one visible per carousel state.
+            The stack tracks the tallest headline so single- and multi-line
+            texts both fit without fixed spacing. */}
+        <View
+          className="w-full items-center justify-center"
+          style={{ height: headlineHeight }}
+        >
+          {HEADLINES.map((headline, index) => (
+            <View
+              key={index}
+              className="absolute left-0 right-0"
+              onLayout={handleHeadlineLayout(index)}
+            >
+              <StaggeredText
+                text={headline}
+                fontSize={headlineFontSize}
+                activeIndex={activeIndex}
+                showIndex={[index]}
+              />
+            </View>
+          ))}
         </View>
-        {/* Responsive gap: all spare panel height goes between headline and description */}
-        <View className="flex-1" />
-        <View className="h-14 w-full items-center justify-center">
+        <View
+          className="w-full items-center justify-center"
+          style={{ height: descriptionHeight, marginTop: S(16) }}
+        >
           {SLIDES.map((item, index) => (
             <FeatureItem
               key={index}
               label={item.description}
+              scale={textScale}
               itemIndex={index}
+              onLayout={handleDescriptionLayout(index)}
               activeIndex={activeIndex} // Drives enter/exit animations
               prevIndex={prevIndex} // Determines transition direction
             />
           ))}
         </View>
-        {/* Pagination dots with smooth color transitions */}
-        <Dots numberOfDots={SLIDES.length} activeIndex={activeIndex} />
-        <AnimatedPressable
-          className="h-14 px-3 rounded-[19px] items-center justify-center"
-          style={[
-            styles.borderCurve,
-            rButtonStyle,
-            { backgroundColor: Colors.primary },
-          ]}
-          onPress={startScaring}
-        >
-          <Text
-            className="text-lg font-medium"
-            style={{ color: Colors.foreground }}
+        {/* Spare panel height collects here, pinning the dots and CTA to the
+            bottom while headline and description keep natural spacing */}
+        <View className="flex-1" />
+        {/* On the last page the CTA crossfades over the pagination dots —
+            both share this slot so the panel layout never jumps. */}
+        <View style={{ height: S(56), justifyContent: "center" }}>
+          <AnimatedPressable
+            className="items-center justify-center"
+            style={[
+              styles.borderCurve,
+              rButtonStyle,
+              {
+                backgroundColor: Colors.primary,
+                height: S(56),
+                paddingHorizontal: S(12),
+                borderRadius: S(19),
+              },
+            ]}
+            onPress={startScaring}
           >
-            Start Scaring
-          </Text>
-        </AnimatedPressable>
+            <Text
+              className="font-medium"
+              style={{ color: Colors.foreground, fontSize: S(18) }}
+            >
+              Start Scaring
+            </Text>
+          </AnimatedPressable>
+          <Animated.View
+            className="absolute left-0 right-0 top-0 bottom-0 items-center justify-center"
+            pointerEvents="none"
+            style={rDotsStyle}
+          >
+            <Dots
+              numberOfDots={SLIDES.length}
+              activeIndex={activeIndex}
+              size={S(8)}
+              gap={S(4)}
+            />
+          </Animated.View>
+        </View>
       </View>
       </View>
     </View>

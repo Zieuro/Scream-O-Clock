@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Scream O' Clock",
+    "name": "Scream O'Clock",
     "slug": "Scream-O-Clock",
     "version": "2.0.2",
     "orientation": "portrait",
@@ -12,7 +12,7 @@
       "bundleIdentifier": "com.zieuro.screamoclock",
       "supportsTablet": false,
       "infoPlist": {
-        "NSAlarmKitUsageDescription": "Scream O' Clock schedules alarms for your rotation times.",
+        "NSAlarmKitUsageDescription": "Scream O'Clock schedules alarms for your rotation times.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },

@@ -8,13 +8,28 @@ import { Colors } from "@/constants/colors";
 interface DotsProps {
   numberOfDots: number; // Dynamic dot count for responsive pagination
   activeIndex: SharedValue<number>; // Shared value drives color transitions across all dots
+  size?: number; // Dot diameter; callers scale it to the screen size
+  gap?: number; // Spacing between dots
 }
 
-export const Dots: FC<DotsProps> = ({ numberOfDots, activeIndex }) => {
+export const Dots: FC<DotsProps> = ({
+  numberOfDots,
+  activeIndex,
+  size = 8,
+  gap = 4,
+}) => {
   return (
-    <View className="flex-row mt-2 items-center justify-center gap-1">
+    <View
+      className="flex-row items-center justify-center"
+      style={{ gap }}
+    >
       {Array.from({ length: numberOfDots }, (_, index) => (
-        <Dot key={index} index={index} activeIndex={activeIndex} />
+        <Dot
+          key={index}
+          index={index}
+          activeIndex={activeIndex}
+          size={size}
+        />
       ))}
     </View>
   );
@@ -23,9 +38,10 @@ export const Dots: FC<DotsProps> = ({ numberOfDots, activeIndex }) => {
 interface DotProps {
   index: number; // Dot position for active state comparison
   activeIndex: SharedValue<number>; // Shared carousel state for color animation
+  size: number; // Dot diameter
 }
 
-const Dot: FC<DotProps> = ({ index, activeIndex }) => {
+const Dot: FC<DotProps> = ({ index, activeIndex, size }) => {
   // Animated color transition based on active carousel state
   const animatedStyle = useAnimatedStyle(() => {
     const backgroundColor = withTiming(
@@ -40,7 +56,12 @@ const Dot: FC<DotProps> = ({ index, activeIndex }) => {
     };
   });
 
-  return <Animated.View className="w-2 h-2 rounded-full" style={animatedStyle} />;
+  return (
+    <Animated.View
+      className="rounded-full"
+      style={[{ width: size, height: size }, animatedStyle]}
+    />
+  );
 };
 
 // scream-o-clock-onboarding-carousel-animation 🔼

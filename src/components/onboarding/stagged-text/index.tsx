@@ -9,11 +9,19 @@ import { scheduleOnRN } from "react-native-worklets";
 
 type Props = {
   text: string; // Text content to animate character by character
+  fontSize?: number; // Rendered font size; callers scale it to the screen size
   activeIndex: SharedValue<number>; // Current carousel state for visibility control
   showIndex: number[]; // Array of carousel indices where this text should be visible
 };
 
-export const StaggeredText: FC<Props> = ({ text, activeIndex, showIndex }: Props) => {
+export const StaggeredText: FC<Props> = ({
+  text,
+  fontSize = 30,
+  activeIndex,
+  showIndex,
+}: Props) => {
+  // Keep explicit line height in sync so containers can size themselves
+  const lineHeight = Math.round(fontSize * 1.25);
   // Animation progress shared value: 0 = hidden, 1 = fully visible
   const progress = useSharedValue(0);
 
@@ -44,22 +52,44 @@ export const StaggeredText: FC<Props> = ({ text, activeIndex, showIndex }: Props
   return (
     <View className="items-center">
       {lines.map((line, lineIndex) => {
-        // Continue the stagger cascade across line breaks
-        const charOffset = lines
+        // Character offset of this line in the full text (newlines included)
+        // so the stagger cascade runs continuously across line breaks
+        const lineOffset = lines
           .slice(0, lineIndex)
-          .reduce((sum, prevLine) => sum + prevLine.length, 0);
+          .reduce((sum, prevLine) => sum + prevLine.length + 1, 0);
+        const words = line.split(" ");
 
         return (
           <View key={lineIndex} className="flex-row flex-wrap justify-center">
-            {line.split("").map((char, index) => (
-              <AnimatedChar
-                key={index}
-                char={char}
-                index={charOffset + index} // Global character position for stagger timing
-                totalCount={text.length} // Total characters for animation calculations
-                progress={progress} // Shared animation trigger
-              />
-            ))}
+            {words.map((word, wordIndex) => {
+              // Each word is an unbreakable row so lines only wrap between
+              // words, never mid-word
+              const wordOffset =
+                lineOffset +
+                words
+                  .slice(0, wordIndex)
+                  .reduce((sum, prevWord) => sum + prevWord.length + 1, 0);
+
+              return (
+                <View key={wordIndex} className="flex-row">
+                  {word.split("").map((char, charIndex) => (
+                    <AnimatedChar
+                      key={charIndex}
+                      char={char}
+                      fontSize={fontSize}
+                      lineHeight={lineHeight}
+                      index={wordOffset + charIndex} // Global character position for stagger timing
+                      totalCount={text.length} // Total characters for animation calculations
+                      progress={progress} // Shared animation trigger
+                    />
+                  ))}
+                  {/* Spacer stands in for the space character between words */}
+                  {wordIndex < words.length - 1 && (
+                    <View style={{ width: fontSize * 0.28 }} />
+                  )}
+                </View>
+              );
+            })}
           </View>
         );
       })}
