@@ -61,9 +61,8 @@ export const useAppStore = create<AppState>()(
 
       tick: (now) => set({ now }),
       loadShow: async (date) => {
-        // const config_response = await fetchConfig();
-        // const config = config_response ?? default_config;
-        const config = default_config;
+        const config_response = await fetchConfig();
+        const config = config_response ?? default_config;
         const roleType = useSettingsStore.getState().roleType;
         const rows =
           roleType === "standard"
