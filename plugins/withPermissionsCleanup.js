@@ -4,9 +4,16 @@ const { withAndroidManifest } = require("expo/config-plugins");
 // permissions surface in Play's data review and the system app-info UI, so
 // strip them at merge time with tools:node="remove" — honored by the
 // manifest merger no matter which library injects them.
+// READ_MEDIA_* are injected by @harkenapp/sdk-react-native's config plugin,
+// but Google Play's photo/video permissions policy forbids them for apps
+// targeting API 33+ — expo-image-picker uses the permissionless system photo
+// picker there, so removing them breaks nothing.
 const STRIP = [
   "android.permission.SYSTEM_ALERT_WINDOW",
   "android.permission.RECORD_AUDIO",
+  "android.permission.READ_MEDIA_IMAGES",
+  "android.permission.READ_MEDIA_VIDEO",
+  "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
 ];
 
 const withPermissionsCleanup = (config) => {
